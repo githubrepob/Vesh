@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { FormEvent } from "react";
 import styles from "./memory.module.css";
+import AccountMenu from "@/components/AccountMenu";
+import { ArrowLeft, Brain, ChatCircleText, SquaresFour } from "@phosphor-icons/react";
 
 type MemoryType = "fact" | "preference" | "goal" | "project" | "instruction";
 type Memory = {
@@ -196,7 +198,19 @@ export default function MemoryPage() {
           <span className="brand__divider" />
           <span className="brand__descriptor">WORKSPACE</span>
         </Link>
-        <Link className="workspace-link" href="/workspace">← Workspace</Link>
+        <div className="workspace-topbar-actions">
+          <Link className="workspace-link" href="/workspace"><ArrowLeft size={15} weight="regular" /> Workspace</Link>
+          <AccountMenu
+            mobileNavigation
+            showEnvironmentLink={false}
+            showWorkspaceLink={false}
+            showStreak
+            homeLinkLabel="Return to Workspace"
+            homeLinkHref="/workspace"
+            secondaryHomeLinkLabel="Return to VESH"
+            secondaryHomeLinkHref="/"
+          />
+        </div>
       </header>
 
       <div className={styles.shell}>
@@ -205,9 +219,9 @@ export default function MemoryPage() {
           <h1>Workspace</h1>
           <p className={styles.sideIntro}>Your personal knowledge, kept under your control.</p>
           <nav className={styles.nav} aria-label="Workspace sections">
-            <Link href="/workspace">◫ <span>Overview</span></Link>
-            <Link href="/workspace/conversations">◷ <span>Conversations</span></Link>
-            <Link href="/workspace/memory" aria-current="page" className={styles.active}>✧ <span>Memory</span></Link>
+            <Link href="/workspace"><SquaresFour size={18} weight="regular" aria-hidden="true" /> <span>Overview</span></Link>
+            <Link href="/workspace/conversations"><ChatCircleText size={18} weight="regular" aria-hidden="true" /> <span>Conversations</span></Link>
+            <Link href="/workspace/memory" aria-current="page" className={styles.active}><Brain size={18} weight="regular" aria-hidden="true" /> <span>Memory</span></Link>
           </nav>
           <div className={styles.privacyNote}> <span /> Private to your account <small>Stored securely with your VESH account</small></div>
         </aside>
@@ -247,7 +261,13 @@ export default function MemoryPage() {
             <p className={styles.helper}>Only save information you want VESH to retain. You can edit or delete it at any time.</p>
           </form>
 
-          {error && <div className={styles.error} role="alert">{error}</div>}
+          {error && (/authentication required|unauthorized|sign in/i.test(error) ? (
+            <div className={`${styles.error} ${styles.authError}`} role="alert">
+              <span>Sign in to access your saved memory.</span>
+              <Link href="/login">Sign in</Link>
+              <Link href="/signup">Create account</Link>
+            </div>
+          ) : <div className={styles.error} role="alert">{error}</div>)}
           {notice && <div className={styles.notice} role="status">{notice}</div>}
 
           <div className={styles.listHeader}>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import AssistantMessage from "./AssistantMessage";
+import AccountMenu from "@/components/AccountMenu";
 
 type Conversation = {
   id: string;
@@ -597,9 +598,21 @@ export default function ConversationsPage() {
           <small>WORKSPACE</small>
         </Link>
 
-        <Link href="/workspace" className="conversation-return">
-          ← Return to Workspace
-        </Link>
+        <div className="conversation-topbar-actions">
+          <Link href="/workspace" className="conversation-return">
+            Return to Workspace
+          </Link>
+          <AccountMenu
+            mobileNavigation
+            showEnvironmentLink={false}
+            showWorkspaceLink={false}
+            showStreak
+            homeLinkLabel="Return to Workspace"
+            homeLinkHref="/workspace"
+            secondaryHomeLinkLabel="Return to VESH"
+            secondaryHomeLinkHref="/"
+          />
+        </div>
       </header>
 
       <div className="conversation-layout">
@@ -734,9 +747,15 @@ export default function ConversationsPage() {
 
           <div className="conversation-composer-wrap">
             {error && (
-              <p className="conversation-error" role="alert">
-                {error}
-              </p>
+              /authentication required|unauthorized|sign in/i.test(error) ? (
+                <div className="conversation-error conversation-auth-error" role="alert">
+                  <span>Sign in to access saved conversations.</span>
+                  <Link href="/login">Sign in</Link>
+                  <Link href="/signup">Create account</Link>
+                </div>
+              ) : (
+                <p className="conversation-error" role="alert">{error}</p>
+              )
             )}
 
             <form className="conversation-composer" onSubmit={sendMessage}>

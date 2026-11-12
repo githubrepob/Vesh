@@ -19,9 +19,9 @@ import {
   Pause,
 } from "@phosphor-icons/react";
 
-import HardworkCheckIn from "@/features/attendence/HardworkCheckIn";
 
 import QuietHomeExperience from "@/features/ambient/QuietHomeExperience";
+import HardworkCheckIn from "@/features/attendence/HardworkCheckIn";
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
@@ -31,6 +31,7 @@ import Link from "next/link";
 
 import VeshCompanion from "@/features/VeshCompanion";
 import InteractiveWorkspaceRail from "@/features/interactive/InteractiveWorkspaceRail";
+import AccountMenu from "@/components/AccountMenu";
 
 import { useCompanionController } from "@/features/companion";
 
@@ -140,6 +141,7 @@ export default function Home() {
   const [captionsEnabled] = useState(true);
 
   const [error, setError] = useState("");
+  const [showAuthPrompt, setShowAuthPrompt] = useState(false);
 
   const [voiceSupported, setVoiceSupported] = useState(true);
 
@@ -490,6 +492,7 @@ const ttsRequestControllerRef = useRef<AbortController | null>(null);
           : "VESH could not process the recording.";
 
       setError(message);
+      if (/sign in|authentication required|unauthorized/i.test(message)) setShowAuthPrompt(true);
       setStatus("Voice input failed");
 
     } finally {
@@ -1203,6 +1206,7 @@ const ttsRequestControllerRef = useRef<AbortController | null>(null);
           caught instanceof Error ? caught.message : "Something went wrong.";
 
         setError(message);
+        if (/sign in|authentication required|unauthorized/i.test(message)) setShowAuthPrompt(true);
         setStatus("I couldn't complete that");
         reset();
 
@@ -1432,99 +1436,34 @@ const ttsRequestControllerRef = useRef<AbortController | null>(null);
         </Link>
 
         <div className="vesh-header-actions">
-
-          <AmbientScenePicker
-
-            scene={scene}
-
-            onChange={changeScene}
-
-          />
-
+          <AmbientScenePicker scene={scene} onChange={changeScene} />
           <button
-
             type="button"
-
             className="vesh-fullscreen-button"
-
             onClick={toggleFullscreen}
-
-            aria-label={
-
-              isFullscreen ? "Exit fullscreen" : "Enter fullscreen"
-
-            }
-
-            title={
-
-              isFullscreen
-
-                ? "Exit fullscreen (Esc)"
-
-                : "Enter fullscreen"
-
-            }
-
+            aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+            title={isFullscreen ? "Exit fullscreen (Esc)" : "Enter fullscreen"}
           >
-
             {isFullscreen ? (
-
-              <CornersInIcon
-
-                size={17}
-
-                weight="light"
-
-                aria-hidden="true"
-
-              />
-
+              <CornersInIcon size={17} weight="light" aria-hidden="true" />
             ) : (
-
-              <CornersOutIcon
-
-                size={17}
-
-                weight="light"
-
-                aria-hidden="true"
-
-              />
-
+              <CornersOutIcon size={17} weight="light" aria-hidden="true" />
             )}
-
-            <span>
-
-              {isFullscreen ? "Exit" : "Fullscreen"}
-
-            </span>
-
+            <span>{isFullscreen ? "Exit" : "Fullscreen"}</span>
           </button>
-
           <HardworkCheckIn />
-
-          <Link
-
-            href="/workspace"
-
-            className="vesh-workspace-link"
-
-          >
-
+          <Link href="/workspace" className="vesh-workspace-link">
             Workspace
-
-            <ArrowUpRightIcon
-
-              size={14}
-
-              weight="light"
-
-              aria-hidden="true"
-
-            />
-
+            <ArrowUpRightIcon size={14} weight="light" aria-hidden="true" />
           </Link>
-
+          <AccountMenu
+            mobileNavigation
+            showStreak
+            scene={scene}
+            onSceneChange={changeScene}
+            onFullscreen={toggleFullscreen}
+            isFullscreen={isFullscreen}
+          />
         </div>
 
       </header>
@@ -1617,7 +1556,7 @@ const ttsRequestControllerRef = useRef<AbortController | null>(null);
                 title={micPaused ? "Resume microphone" : "Pause microphone"}
               >
                 <span className="inline-flex items-center gap-2">
-                  {micPaused ? <Play size={16} weight="fill" /> : <Pause size={16} weight="fill" />}
+                  {micPaused ? <Play size={15} weight="fill" /> : <Pause size={15} weight="fill" />}
                   <span>{micPaused ? "Resume listening" : "Pause listening"}</span>
                 </span>
               </button>
@@ -1790,6 +1729,26 @@ const ttsRequestControllerRef = useRef<AbortController | null>(null);
         </span>
 
       </footer>
+
+      {showAuthPrompt && (
+        <div className="vesh-auth-prompt-backdrop" role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setShowAuthPrompt(false);
+          }}>
+          <section className="vesh-auth-prompt" role="dialog" aria-modal="true"
+            aria-labelledby="vesh-auth-prompt-title">
+            <button type="button" className="vesh-auth-prompt__close"
+              onClick={() => setShowAuthPrompt(false)} aria-label="Close sign-in prompt">×</button>
+            <span className="vesh-auth-prompt__eyebrow">YOUR VESH ACCOUNT</span>
+            <h2 id="vesh-auth-prompt-title">Sign in to continue.</h2>
+            <p>Voice conversations and saved personal features are available when you sign in. Create an account if you are new to VESH.</p>
+            <div className="vesh-auth-prompt__actions">
+              <Link href="/login">Sign in</Link>
+              <Link href="/signup">Create account</Link>
+            </div>
+          </section>
+        </div>
+      )}
 
     </main>
 

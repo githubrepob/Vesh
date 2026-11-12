@@ -3,6 +3,8 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 
 export type AuthState = {
   error?: string;
@@ -40,6 +42,7 @@ export async function loginAction(
     };
   }
 
+  revalidatePath("/", "layout");
   redirect("/workspace");
 }
 
@@ -48,6 +51,7 @@ export async function signupAction(
   formData: FormData
 ): Promise<AuthState> {
   const displayName = String(formData.get("displayName") ?? "").trim();
+
   const email = String(formData.get("email") ?? "")
     .trim()
     .toLowerCase();
@@ -78,7 +82,8 @@ export async function signupAction(
 
   if (!origin) {
     return {
-      error: "Site URL is not configured. Add NEXT_PUBLIC_SITE_URL to .env.local.",
+      error:
+        "Site URL is not configured. Add NEXT_PUBLIC_SITE_URL to .env.local.",
     };
   }
 
@@ -100,6 +105,7 @@ export async function signupAction(
   }
 
   if (data.session) {
+    revalidatePath("/", "layout");
     redirect("/workspace");
   }
 
@@ -109,10 +115,29 @@ export async function signupAction(
   };
 }
 
-export async function logoutAction(): Promise<void> {
+export async function logoutAction(_formData: FormData): Promise<void> {
+  const cookieStore = await cookies();
   const supabase = await createClient();
 
-  await supabase.auth.signOut();
+  // Attempt to revoke this session at Supabase. A transient Auth API failure
+  // must not prevent this browser from clearing its local session cookies.
+  try {
+    await supabase.auth.signOut({ scope: "local" });
+  } catch {
+    // Continue with local cookie cleanup below.
+  }
 
+  // Supabase SSR may split the auth token into multiple cookies.
+  for (const cookie of cookieStore.getAll()) {
+    if (
+      cookie.name.startsWith("sb-") &&
+      (cookie.name.includes("-auth-token") ||
+        cookie.name.includes("-code-verifier"))
+    ) {
+      cookieStore.delete(cookie.name);
+    }
+  }
+
+  revalidatePath("/", "layout");
   redirect("/login");
 }

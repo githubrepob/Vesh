@@ -6586,7 +6586,41 @@ body, button, input, textarea, select { font-family: "Space Grotesk", Inter, sys
 .workspace-task-form > input:first-child { grid-column: 1 / -1; }
 .workspace-task-form label { display: grid; gap: 6px; min-width: 0; color: var(--muted); font-size: 10px; }
 .workspace-task-form label input { min-width: 0; width: 100%; }
-.workspace-calendar-grid { width: 100%; overflow: hidden; }
+.workspace-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.workspace-calendar-grid > span {
+  min-width: 0;
+  padding: 8px 2px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.workspace-calendar-grid > i {
+  min-width: 0;
+  min-height: 68px;
+}
+
+.workspace-calendar-grid > button {
+  min-width: 0;
+  min-height: 68px;
+  padding: 8px 4px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.workspace-calendar-grid > button small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .workspace-calendar-grid button { min-width: 0; overflow: hidden; }
 .workspace-calendar-grid button small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 @media (max-width: 800px) {
@@ -6676,3 +6710,768 @@ body, button, input, textarea, select { font-family: "Space Grotesk", Inter, sys
     margin: 20px auto 48px;
   }
 }
+
+/* =========================================================
+   VESH V1.0 — POST-DEPLOYMENT RESPONSIVE LAYOUT REFINEMENTS
+   Scope: clock home, top navigation, workspace calendar.
+   Functional click/auth behavior is handled in React/API code.
+========================================================= */
+
+/* Prevent flex/grid children from forcing horizontal overflow. */
+.vesh-clock-home,
+.vesh-clock-home *,
+.workspace-app,
+.workspace-app *,
+.vesh-interactive-layout,
+.vesh-interactive-layout > * {
+  box-sizing: border-box;
+}
+
+.vesh-clock-home {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow-x: clip;
+}
+
+.clock-topbar,
+.clock-topbar-actions,
+.clock-brand {
+  min-width: 0;
+}
+
+.clock-brand {
+  flex: 0 1 auto;
+  white-space: nowrap;
+}
+
+.clock-brand .brand__name {
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+
+.clock-topbar-actions {
+  flex: 0 0 auto;
+  flex-wrap: nowrap;
+}
+
+.clock-workspace-link,
+.theme-toggle {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+
+/* Keep the main home composition centered without forcing a clipped page. */
+.clock-presence {
+  width: 100%;
+  min-width: 0;
+}
+
+.clock-time,
+.ambient-greeting,
+.ambient-message,
+.clock-interaction,
+.clock-caption,
+.clock-controls {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.clock-caption,
+.ambient-message {
+  overflow-wrap: anywhere;
+}
+
+/* Workspace calendar: stable seven-column layout on desktop and mobile. */
+.workspace-calendar,
+.workspace-calendar-grid {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.workspace-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-auto-rows: minmax(48px, auto);
+  align-items: stretch;
+  gap: clamp(3px, 0.6vw, 7px);
+  width: 100%;
+  overflow: visible;
+}
+
+.workspace-calendar-grid > span {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 30px;
+  padding: 4px 1px;
+  text-align: center;
+  white-space: nowrap;
+  font-size: clamp(9px, 1vw, 11px);
+}
+
+.workspace-calendar-grid > i {
+  display: block;
+  min-width: 0;
+  min-height: 48px;
+}
+
+.workspace-calendar-grid > button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-width: 0;
+  min-height: 48px;
+  width: 100%;
+  padding: clamp(5px, 0.7vw, 9px);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.025);
+  color: var(--workspace-text, #e9e9e7);
+  text-align: left;
+}
+
+.workspace-calendar-grid > button:hover {
+  border-color: rgba(169, 223, 224, 0.35);
+  background: rgba(169, 223, 224, 0.06);
+}
+
+.workspace-calendar-grid > button:focus-visible {
+  outline: 2px solid rgba(169, 223, 224, 0.8);
+  outline-offset: 2px;
+}
+
+.workspace-calendar-grid > button small {
+  display: block;
+  max-width: 100%;
+  margin-top: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Workspace shell and controls should shrink instead of creating page overflow. */
+.workspace-app {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+.workspace-shell,
+.workspace-content,
+.workspace-panel,
+.workspace-form,
+.workspace-columns,
+.task-groups,
+.note-grid {
+  min-width: 0;
+}
+
+.workspace-form input,
+.workspace-form textarea,
+.workspace-search,
+.task-create-form input,
+.workspace-task-form input,
+.workspace-inline-fields > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+@media (max-width: 760px) {
+  .vesh-clock-home {
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: 16px 14px max(16px, env(safe-area-inset-bottom));
+  }
+
+  .clock-topbar {
+    align-items: center;
+    gap: 10px;
+    min-height: 42px;
+  }
+
+  .clock-brand {
+    gap: 8px;
+    max-width: calc(100% - 112px);
+  }
+
+  .clock-brand .brand__name {
+    font-size: 13px;
+    letter-spacing: 0.2em;
+  }
+
+  .clock-topbar-actions {
+    gap: 6px;
+  }
+
+  .clock-workspace-link {
+    min-height: 34px;
+    padding: 8px 10px;
+    font-size: 9px;
+    letter-spacing: 0.04em;
+  }
+
+  .theme-toggle {
+    min-height: 34px;
+    padding: 7px 9px;
+    font-size: 9px;
+    letter-spacing: 0.04em;
+  }
+
+  .clock-presence {
+    flex: 1 0 auto;
+    padding: clamp(10px, 2.5vh, 22px) 0;
+  }
+
+  .clock-time time {
+    font-size: clamp(52px, 15vw, 78px);
+  }
+
+  .clock-companion {
+    width: min(230px, 34vh, 66vw);
+  }
+
+  .ambient-greeting {
+    max-width: 100%;
+    margin: 5px 0 6px;
+  }
+
+  .ambient-greeting .greeting {
+    font-size: clamp(14px, 4vw, 17px);
+    line-height: 1.4;
+  }
+
+  .ambient-message {
+    max-width:  min(340px, 94vw);
+    margin-top: 5px;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .clock-interaction {
+    max-width: 94vw;
+    font-size: 10px;
+    line-height: 1.5;
+  }
+
+  .clock-caption {
+    max-width: 94vw;
+    margin-top: 8px;
+    font-size: 12px;
+    line-height: 1.55;
+  }
+
+  .clock-controls {
+    padding-top: 8px;
+    gap: 7px;
+  }
+
+  .mode-switch {
+    max-width: 100%;
+  }
+
+  .mode-switch button {
+    min-width: 0;
+    padding: 9px 15px;
+    white-space: nowrap;
+  }
+
+  .workspace-calendar {
+    padding: 12px;
+  }
+
+  .workspace-calendar-grid {
+    grid-auto-rows: minmax(44px, auto);
+    gap: 3px;
+  }
+
+  .workspace-calendar-grid > span {
+    min-height: 26px;
+    font-size: 9px;
+  }
+
+  .workspace-calendar-grid > i {
+    min-height: 44px;
+  }
+
+  .workspace-calendar-grid > button {
+    min-height: 44px;
+    padding: 6px 4px;
+    border-radius: 7px;
+  }
+
+  .workspace-calendar-grid > button small {
+    display: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .vesh-clock-home {
+    padding-right: 11px;
+    padding-left: 11px;
+  }
+
+  .clock-brand {
+    gap: 6px;
+    max-width: calc(100% - 104px);
+  }
+
+  .clock-brand .brand__name {
+    font-size: 12px;
+    letter-spacing: 0.16em;
+  }
+
+  .clock-topbar-actions {
+    gap: 4px;
+  }
+
+  .clock-workspace-link {
+    padding-inline: 8px;
+    font-size: 8px;
+  }
+
+  .theme-toggle {
+    padding-inline: 7px;
+    font-size: 8px;
+  }
+
+  .clock-companion {
+    width: min(205px, 31vh, 62vw);
+  }
+
+  .workspace-calendar {
+    padding: 9px;
+  }
+
+  .workspace-calendar-grid > button {
+    padding: 5px 3px;
+  }
+}
+
+@media (max-height: 700px) and (min-width: 761px) {
+  .vesh-clock-home {
+    min-height: 700px;
+    min-height: max(100svh, 700px);
+  }
+
+  .clock-companion {
+    width: min(240px, 34vh, 28vw);
+  }
+
+  .clock-controls {
+    padding-top: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vesh-clock-home *,
+  .workspace-app * {
+    scroll-behavior: auto !important;
+  }
+}
+
+
+/* VESH workspace navigation, account menu and calendar refinements */
+.workspace-topbar-actions { display:flex; align-items:center; justify-content:flex-end; gap:10px; min-width:0; }
+.workspace-topbar-actions .vesh-account-menu { z-index:90; }
+.workspace-topbar-actions .vesh-account-menu > summary { min-height:38px; }
+.workspace-calendar { width:100%; min-width:0; overflow:visible; }
+.workspace-calendar .vesh-calendar-head {
+  display:grid !important;
+  grid-template-columns:44px minmax(0,1fr) 44px auto;
+  align-items:center;
+  gap:10px;
+  width:100%;
+  min-width:0;
+  box-sizing:border-box;
+}
+.workspace-calendar .vesh-calendar-head strong { min-width:0; text-align:center; font-size:clamp(13px,1.5vw,16px); }
+.workspace-calendar .vesh-calendar-head button { min-width:0; min-height:40px; padding:0 10px; white-space:nowrap; }
+.workspace-calendar-grid {
+  display:grid !important;
+  grid-template-columns:repeat(7,minmax(0,1fr)) !important;
+  grid-auto-rows:minmax(68px,auto);
+  gap:8px;
+  width:100%;
+  min-width:0;
+  overflow:visible;
+  box-sizing:border-box;
+}
+.workspace-calendar-grid > span {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-width:0;
+  min-height:32px;
+  color:rgba(190,211,222,.76);
+  font-size:12px;
+  text-align:center;
+}
+.workspace-calendar-grid > i { display:block; min-width:0; min-height:68px; }
+.workspace-calendar-grid > button {
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:flex-start;
+  gap:5px;
+  min-width:0;
+  min-height:68px;
+  padding:12px 10px;
+  overflow:hidden;
+  border:1px solid rgba(205,226,212,.11);
+  border-radius:13px;
+  background:rgba(255,255,255,.025);
+  color:#e8eee9;
+  text-align:left;
+  cursor:pointer;
+}
+.workspace-calendar-grid > button:hover,
+.workspace-calendar-grid > button:focus-visible { border-color:rgba(112,217,233,.42); background:rgba(112,217,233,.055); outline:none; }
+.workspace-calendar-grid > button.is-today { border-color:rgba(112,217,233,.42); box-shadow:inset 0 0 0 1px rgba(112,217,233,.12); }
+.workspace-calendar-grid > button.has-items { background:rgba(112,217,233,.055); }
+.workspace-calendar-grid > button strong { font-size:15px; font-weight:600; }
+.workspace-calendar-grid > button small { display:block; max-width:100%; overflow:hidden; color:#9fc8d0; font-size:10px; line-height:1.25; text-overflow:ellipsis; white-space:nowrap; }
+
+@media (max-width:760px) {
+  .workspace-topbar { min-height:58px; padding:10px 14px; gap:8px; }
+  .workspace-topbar-actions { gap:6px; }
+  .workspace-topbar-actions .workspace-fullscreen-button { display:none; }
+  .workspace-topbar-actions .workspace-link { display:none; }
+  .workspace-topbar-actions .vesh-account-menu > summary { width:38px; min-width:38px; min-height:38px; padding:0; }
+  .workspace-topbar-actions .vesh-account-menu__desktop { display:none; }
+  .workspace-topbar-actions .vesh-account-menu__mobile { display:flex; }
+  .workspace-shell { display:flex !important; flex-direction:column !important; gap:18px !important; padding:18px 14px 32px !important; }
+  .workspace-sidebar { position:static !important; width:100% !important; min-width:0 !important; padding:0 !important; }
+  .workspace-sidebar > .eyebrow,
+  .workspace-sidebar > h1,
+  .workspace-sidebar > .workspace-intro,
+  .workspace-storage-note { display:none !important; }
+  .workspace-nav { display:flex !important; flex-direction:row !important; gap:7px !important; width:100%; overflow-x:auto; overscroll-behavior-x:contain; padding:2px 0 8px; scrollbar-width:none; }
+  .workspace-nav::-webkit-scrollbar { display:none; }
+  .workspace-nav button { flex:0 0 auto; min-height:38px; padding:0 12px !important; border-radius:999px !important; white-space:nowrap; font-size:12px !important; }
+  .workspace-nav button span { margin-right:6px; }
+  .workspace-content { width:100% !important; min-width:0 !important; padding:0 !important; }
+  .workspace-heading { margin-bottom:18px !important; }
+  .workspace-heading h2 { font-size:clamp(34px,10vw,46px) !important; line-height:1.05 !important; }
+  .workspace-calendar { padding:10px !important; }
+  .workspace-calendar .vesh-calendar-head { grid-template-columns:36px minmax(0,1fr) 36px auto; gap:5px; padding:8px !important; }
+  .workspace-calendar .vesh-calendar-head button { min-height:36px; padding:0 7px; font-size:12px; }
+  .workspace-calendar .vesh-calendar-head strong { font-size:12px; }
+  .workspace-calendar-grid { grid-auto-rows:minmax(48px,auto); gap:4px; }
+  .workspace-calendar-grid > span { min-height:26px; font-size:10px; }
+  .workspace-calendar-grid > i { min-height:48px; }
+  .workspace-calendar-grid > button { min-height:48px; padding:7px 5px; border-radius:8px; gap:3px; }
+  .workspace-calendar-grid > button strong { font-size:12px; }
+  .workspace-calendar-grid > button small { display:none; }
+  .workspace-form { min-width:0; }
+  .workspace-inline-fields { grid-template-columns:minmax(0,1fr) !important; }
+}
+@media (max-width:380px) {
+  .workspace-shell { padding-inline:10px !important; }
+  .workspace-calendar { padding:7px !important; }
+  .workspace-calendar-grid { gap:3px; }
+  .workspace-calendar-grid > button { min-height:43px; padding:6px 4px; }
+}
+
+
+/* VESH mobile navigation and history corrections (2026-11) */
+.workspace-app { font-family: inherit; }
+.workspace-app .workspace-nav button { gap: 10px; }
+.workspace-nav-icon { display:inline-flex; align-items:center; justify-content:center; width:20px; min-width:20px; color:#9edce1; }
+.workspace-nav button.is-active .workspace-nav-icon { color:#d5f2ed; }
+.workspace-calendar .vesh-calendar-head { grid-template-columns:44px minmax(0,1fr) 44px auto; }
+.workspace-calendar .vesh-calendar-head .calendar-today-button { min-width:58px; padding-inline:12px; border-radius:10px; font-size:12px; line-height:1; }
+@media (max-width:760px) {
+  .workspace-calendar .vesh-calendar-head { grid-template-columns:36px minmax(0,1fr) 36px; row-gap:4px; }
+  .workspace-calendar .vesh-calendar-head .calendar-today-button { grid-column:1 / -1; justify-self:end; min-width:0; min-height:28px; padding:0 9px; border-radius:8px; font-size:11px; }
+  .workspace-topbar-actions .workspace-fullscreen-button,
+  .workspace-topbar-actions .workspace-link { display:none; }
+  .workspace-app .workspace-nav button { gap:7px; }
+  .workspace-nav-icon { width:17px; min-width:17px; }
+}
+
+/* Conversation history is a readable vertical list on narrow screens. */
+@media (max-width:640px) {
+  .conversation-sidebar { max-height:240px !important; min-height:0; }
+  .conversation-list {
+    display:flex !important; flex-direction:column !important;
+    width:100%; max-height:150px !important;
+    overflow-x:hidden !important; overflow-y:auto !important;
+    padding:0 2px 6px 0;
+  }
+  .conversation-list-item {
+    flex:0 0 auto !important; width:100%; min-width:0;
+    align-self:stretch !important;
+  }
+  .conversation-select { min-width:0; width:100%; }
+  .conversation-privacy { display:none; }
+}
+
+
+/* Account access on every signed-in workspace surface */
+.conversation-topbar-actions { display:flex; align-items:center; justify-content:flex-end; gap:10px; min-width:0; }
+.conversation-topbar-actions .vesh-account-menu { z-index:90; }
+.conversation-topbar-actions .vesh-account-menu > summary { min-height:38px; }
+@media (max-width:640px) {
+  .conversation-topbar-actions { gap:7px; }
+  .conversation-topbar-actions .conversation-return { display:none; }
+}
+
+.workspace-auth-error,
+.conversation-auth-error { display:flex; align-items:center; flex-wrap:wrap; gap:10px; }
+.workspace-auth-error a,
+.conversation-auth-error a { display:inline-flex; align-items:center; justify-content:center; min-height:34px; padding:0 12px; border:1px solid rgba(169,223,224,.24); border-radius:9px; color:#c8eeee; text-decoration:none; font-size:12px; }
+.workspace-auth-error a:first-of-type,
+.conversation-auth-error a:first-of-type { background:rgba(169,223,224,.10); }
+
+
+/* VESH correction: monochrome workspace, legible native selects, restrained panels. */
+.workspace-app {
+  --workspace-bg: #050505;
+  --workspace-panel: #090909;
+  --workspace-border: rgba(255,255,255,.10);
+  background: #050505 !important;
+  color: #ededed !important;
+}
+.workspace-app > .environment { display: none !important; }
+.workspace-app .workspace-shell,
+.workspace-app .workspace-topbar { position: relative; z-index: 1; }
+.workspace-app .workspace-stats > button,
+.workspace-app .workspace-panel,
+.workspace-app .workspace-form,
+.workspace-app .note-card,
+.workspace-app .workspace-nav button.is-active,
+.workspace-app .workspace-nav button:hover {
+  background: #090909 !important;
+  border-color: rgba(255,255,255,.10) !important;
+  box-shadow: none !important;
+}
+.workspace-app .workspace-nav button { color: #a7a7a7; }
+.workspace-app .workspace-nav button > span { color: #bcbcbc; }
+.workspace-app .workspace-nav button.is-active,
+.workspace-app .workspace-nav button:hover { color: #f2f2f2; }
+.workspace-app .eyebrow,
+.workspace-app .stat-label { color: #858585 !important; }
+.workspace-app .workspace-heading h2,
+.workspace-app .workspace-sidebar h1 { color: #f1f1f1; }
+.workspace-app input,
+.workspace-app textarea,
+.workspace-app select,
+.vesh-quick-form input,
+.vesh-quick-form select,
+.vesh-quick-form textarea,
+.vesh-task-modal input,
+.vesh-task-modal select,
+.vesh-task-modal textarea {
+  color-scheme: dark !important;
+  background-color: #101010 !important;
+  color: #f0f0f0 !important;
+  border-color: rgba(255,255,255,.16) !important;
+}
+.workspace-app select option,
+.vesh-quick-form select option,
+.vesh-task-modal select option,
+select option {
+  background: #101010 !important;
+  color: #f2f2f2 !important;
+}
+.workspace-app input::placeholder,
+.workspace-app textarea::placeholder { color: #777 !important; }
+.workspace-app .button-primary { background: #ededed !important; color: #080808 !important; border-color: #ededed !important; }
+.workspace-app .button-quiet,
+.workspace-app .delete-button { color: #c9c9c9; }
+.workspace-app .workspace-topbar .brand__descriptor { color: #969696; }
+.workspace-app .workspace-fullscreen-button,
+.workspace-app .workspace-link,
+.workspace-app .workspace-topbar-actions .vesh-account-menu > summary {
+  background: #090909 !important;
+  color: #ededed !important;
+  border-color: rgba(255,255,255,.14) !important;
+}
+.workspace-app .workspace-fullscreen-button:hover,
+.workspace-app .workspace-link:hover,
+.workspace-app .workspace-topbar-actions .vesh-account-menu > summary:hover {
+  background: #151515 !important;
+  border-color: rgba(255,255,255,.28) !important;
+}
+
+/* Interactive mode: all four side panels share a true black surface. */
+.vesh-interactive-rail,
+.vesh-workspace-drawer,
+.vesh-task-modal,
+.vesh-drawer-summary,
+.vesh-drawer-card,
+.vesh-mini-chat__empty,
+.vesh-mini-chat__form,
+.vesh-quick-form,
+.vesh-event-item,
+.vesh-task-item {
+  background: #050505 !important;
+  border-color: rgba(255,255,255,.10) !important;
+  box-shadow: none !important;
+}
+.vesh-workspace-drawer { color: #ededed !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+.vesh-rail-button.is-active { background: #171717 !important; border-color: rgba(255,255,255,.18) !important; color: #fff !important; box-shadow: none !important; }
+.vesh-rail-button:hover { background: #111 !important; color: #fff !important; }
+.vesh-drawer-eyebrow,
+.vesh-panel-intro__kicker { color: #969696 !important; }
+.vesh-drawer-action,
+.vesh-mini-chat__form button { background: #171717 !important; border-color: rgba(255,255,255,.16) !important; color: #f1f1f1 !important; }
+.vesh-mini-chat__messages { background: #050505 !important; }
+.vesh-mini-chat__message { background: #0b0b0b !important; border-color: rgba(255,255,255,.09) !important; }
+.vesh-mini-chat__form textarea { background: #0b0b0b !important; color: #f1f1f1 !important; border-color: rgba(255,255,255,.14) !important; }
+.vesh-mini-chat__form textarea::placeholder { color: #777 !important; }
+
+/* Keep the home logo anchored left and mobile menu anchored right. */
+.vesh-home-header { display:flex !important; align-items:center !important; justify-content:space-between !important; width:100%; }
+.vesh-home-header .vesh-wordmark { flex:0 0 auto !important; margin:0 auto 0 0 !important; justify-content:flex-start !important; }
+.vesh-home-header .vesh-header-actions { display:flex !important; flex:0 0 auto !important; align-items:center !important; justify-content:flex-end !important; margin:0 0 0 auto !important; }
+@media (min-width:761px) {
+  .vesh-account-menu__desktop { display:inline !important; }
+  .vesh-account-menu__mobile { display:none !important; }
+}
+@media (max-width:760px) {
+  .vesh-home-header { padding-inline:16px !important; }
+  .vesh-home-header .vesh-wordmark { margin-right:auto !important; }
+  .vesh-home-header .vesh-header-actions { margin-left:auto !important; }
+  .vesh-home-header .vesh-header-actions > .vesh-fullscreen-button,
+  .vesh-home-header .vesh-header-actions > .vesh-scene-picker { display:none !important; }
+  .vesh-account-menu__desktop { display:none !important; }
+  .vesh-account-menu__mobile { display:flex !important; }
+}
+
+/* Streak control is now available inside the account/navigation menu. */
+.vesh-account-menu__streak { display:flex; align-items:center; gap:10px; padding:5px 8px; color:#bcbcbc; font-size:11px; }
+.vesh-account-menu__streak .vesh-hardwork { position:relative; z-index:2; }
+.vesh-account-menu__streak .vesh-hardwork-trigger { min-width:38px; width:38px; height:34px; padding:0; border-radius:10px; border-color:rgba(255,255,255,.14); color:#dedede; background:#111; }
+.vesh-account-menu__streak .vesh-hardwork-popover { position:fixed; top:auto; right:16px; bottom:16px; z-index:230; }
+.vesh-account-menu__streak .vesh-hardwork-backdrop { z-index:220; }
+
+.workspace-app .task-create-form,
+.workspace-app .workspace-calendar,
+.workspace-app .workspace-calendar-grid > button,
+.workspace-app .workspace-calendar-grid > i,
+.workspace-app .vesh-calendar-head { background:#050505 !important; border-color:rgba(255,255,255,.10) !important; box-shadow:none !important; }
+.workspace-app .workspace-calendar-grid > button { color:#ededed !important; }
+.workspace-app .workspace-calendar-grid > button.is-today { border:1px solid #f0f0f0 !important; background:#151515 !important; color:#fff !important; }
+.workspace-app .workspace-calendar-grid > button.has-items { background:#101010 !important; }
+.workspace-app .workspace-calendar-grid > span { color:#969696 !important; }
+.workspace-app .vesh-calendar-head button { background:#111 !important; color:#ededed !important; border-color:rgba(255,255,255,.16) !important; }
+.workspace-app .vesh-calendar-head .calendar-today-button { min-width:58px; padding-inline:12px; }
+
+/* Final mobile header/account-menu stacking for all Workspace routes. */
+.workspace-topbar,
+.conversation-topbar { position: relative; z-index: 500; }
+.workspace-topbar-actions,
+.conversation-topbar-actions { position: relative; z-index: 510; }
+.workspace-topbar-actions .vesh-account-menu,
+.conversation-topbar-actions .vesh-account-menu { position: relative; z-index: 520; }
+.workspace-topbar-actions .vesh-account-menu__panel,
+.conversation-topbar-actions .vesh-account-menu__panel { z-index: 530; }
+@media (max-width: 760px) {
+  .workspace-topbar .brand { min-width: 0; }
+  .workspace-topbar .brand__name { white-space: nowrap; }
+  .workspace-topbar-actions,
+  .conversation-topbar-actions { flex: 0 0 auto; }
+  .workspace-topbar-actions .vesh-account-menu,
+  .conversation-topbar-actions .vesh-account-menu { margin-left: auto; }
+  .workspace-app .workspace-topbar-actions .vesh-account-menu > summary,
+  .conversation-page .conversation-topbar-actions .vesh-account-menu > summary { min-width: 40px !important; width: 40px !important; height: 40px !important; min-height: 40px !important; padding: 0 !important; }
+}
+
+
+/* VESH final voice-control polish */
+.vesh-conversation-panel__top {
+  gap: 10px;
+}
+
+.vesh-session-state,
+.vesh-mic-toggle,
+.vesh-stop-speaking {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px !important;
+  min-height: 34px !important;
+  padding: 0 12px !important;
+  border-radius: 999px !important;
+  font-family: inherit !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  letter-spacing: 0.01em !important;
+  white-space: nowrap;
+  box-shadow: none !important;
+}
+
+.vesh-session-state {
+  gap: 7px;
+  border: 1px solid rgba(190, 220, 204, 0.12) !important;
+  background: rgba(190, 220, 204, 0.025) !important;
+  color: rgba(211, 225, 216, 0.65) !important;
+}
+
+.vesh-mic-toggle {
+  gap: 7px;
+  border: 1px solid rgba(175, 214, 193, 0.17) !important;
+  background: rgba(175, 214, 193, 0.035) !important;
+  color: #c6dfd1 !important;
+}
+
+.vesh-mic-toggle:hover:not(:disabled) {
+  background: rgba(175, 214, 193, 0.09) !important;
+  border-color: rgba(175, 214, 193, 0.3) !important;
+}
+
+.vesh-mic-toggle:disabled {
+  opacity: 0.4 !important;
+}
+
+.vesh-mic-toggle svg {
+  width: 13px;
+  height: 13px;
+}
+
+.vesh-stop-speaking {
+  gap: 7px;
+  border: 1px solid rgba(225, 145, 145, 0.19) !important;
+  background: rgba(225, 145, 145, 0.045) !important;
+  color: #e8c5c2 !important;
+}
+
+.vesh-stop-speaking:hover {
+  background: rgba(225, 145, 145, 0.10) !important;
+  border-color: rgba(225, 145, 145, 0.32) !important;
+}
+
+.vesh-stop-speaking > span {
+  font-size: 9px;
+}
+
+.vesh-mic-toggle:active,
+.vesh-stop-speaking:active {
+  transform: scale(0.97);
+}
+
+@media (max-width: 760px) {
+  .vesh-conversation-panel__top {
+    gap: 8px;
+  }
+
+  .vesh-session-state,
+  .vesh-mic-toggle,
+  .vesh-stop-speaking {
+    height: 32px !important;
+    min-height: 32px !important;
+    padding: 0 10px !important;
+    font-size: 10px !important;
+  }
+}
+

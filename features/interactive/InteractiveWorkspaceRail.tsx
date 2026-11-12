@@ -373,32 +373,13 @@ export default function InteractiveWorkspaceRail({
             <div><span className="vesh-drawer-eyebrow">YOUR SPACE</span><h2>{nav.find((item) => item.id === activePanel)?.label}</h2></div>
             <button type="button" className="vesh-drawer-close" onClick={() => onPanelChange("voice")} aria-label="Close panel"><X size={18}/></button>
           </div>
-          <div className={`vesh-panel-intro vesh-panel-intro--${activePanel}`}>
-            <span className="vesh-panel-intro__mark" aria-hidden="true">
-              {activePanel === "conversations" ? <ChatCircleText size={18}/> : activePanel === "tasks" ? <ListChecks size={18}/> : activePanel === "calendar" ? <CalendarBlank size={18}/> : <Notebook size={18}/>}
-            </span>
-            <div className="vesh-panel-intro__copy">
-              <span className="vesh-panel-intro__kicker">
-                {activePanel === "conversations" ? "THINK WITH VESH" : activePanel === "tasks" ? "MAKE PROGRESS" : activePanel === "calendar" ? "STAY IN SYNC" : "KEEP WHAT MATTERS"}
-              </span>
-              <p>
-                {activePanel === "conversations"
-                  ? "Pick up a thought, ask a question, or continue where you left off."
-                  : activePanel === "tasks"
-                    ? "Turn intentions into clear next steps. Your progress stays saved."
-                    : activePanel === "calendar"
-                      ? "Keep deadlines and important moments visible in one place."
-                      : "Capture ideas now and return to them whenever you need."}
-              </p>
-            </div>
-          </div>
           {error && <p className="vesh-drawer-error" role="alert">{error}</p>}
           {loading && <p className="vesh-drawer-muted">Loading your data…</p>}
 
           {activePanel === "conversations" && (
             <div className="vesh-mini-chat">
-              <div className="vesh-mini-chat__toolbar"><span>QUICK CHAT</span><div><button type="button" onClick={() => { setMiniMessages([]); setMiniConversationId(null); setError(""); }}>New chat</button><Link href="/workspace/conversations">Full module ↗</Link></div></div>
-              <div className="vesh-mini-chat__messages" aria-live="polite">{miniMessages.length === 0 ? <div className="vesh-mini-chat__empty"><ChatCircleText size={24}/><strong>Chat with VESH</strong><p>Ask a question or start a fresh conversation. Open the full module for saved-chat management.</p></div> : miniMessages.map((message, index) => <article className={`vesh-mini-chat__message is-${message.role}`} key={`${index}-${message.role}`}><span>{message.role === "user" ? "YOU" : "VESH"}</span><div className="vesh-mini-chat__formatted">{message.content ? <ReactMarkdown>{message.content.replace(/\\([*_`])/g, "$1").replace(/&#x20;/g, " ")}</ReactMarkdown> : (miniSending && message.role === "assistant" ? "Thinking…" : "")}</div></article>)}</div>
+              <div className="vesh-mini-chat__toolbar"><span>QUICK CHAT</span><div><button type="button" onClick={() => { setMiniMessages([]); setMiniConversationId(null); setError(""); }}>New chat</button><Link href="/workspace/conversations">Full module</Link></div></div>
+              <div className="vesh-mini-chat__messages" aria-live="polite">{miniMessages.length === 0 ? <p className="vesh-mini-chat__empty-note">No messages yet. Start below.</p> : miniMessages.map((message, index) => <article className={`vesh-mini-chat__message is-${message.role}`} key={`${index}-${message.role}`}><span>{message.role === "user" ? "YOU" : "VESH"}</span><div className="vesh-mini-chat__formatted">{message.content ? <ReactMarkdown>{message.content.replace(/\\([*_`])/g, "$1").replace(/&#x20;/g, " ")}</ReactMarkdown> : (miniSending && message.role === "assistant" ? "Thinking…" : "")}</div></article>)}</div>
               <form className="vesh-mini-chat__form" onSubmit={sendMiniMessage}><textarea value={miniInput} onChange={(event) => setMiniInput(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter" && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); event.currentTarget.form?.requestSubmit(); } }} placeholder="Message VESH… (Enter to send · Shift+Enter for new line)" rows={2} maxLength={6000} disabled={miniSending}/><button className="vesh-drawer-action" type="submit" disabled={miniSending || !miniInput.trim()}>{miniSending ? "Sending…" : "Send"}</button></form>
             </div>
           )}
@@ -452,7 +433,7 @@ export default function InteractiveWorkspaceRail({
                 ))}
                 {notes.length === 0 && !loading && <p className="vesh-drawer-muted">Nothing saved yet. Add a note above and it will also appear in your full Workspace.</p>}
               </div>
-              <Link href="/workspace" className="vesh-drawer-action">Open full Workspace ↗</Link>
+              <Link href="/workspace" className="vesh-drawer-action">Open full Workspace</Link>
             </>
           )}
 
