@@ -5221,3 +5221,54 @@ select option,
   background: rgba(35, 13, 15, 0.24) !important;
   border-color: rgba(236, 151, 151, 0.24) !important;
 }
+
+
+/* Account menu clickability fix — keep Workspace and Memory headers above page content. */
+.workspace-topbar {
+  position: relative !important;
+  z-index: 10000 !important;
+  isolation: isolate !important;
+}
+
+.workspace-topbar-actions {
+  position: relative !important;
+  z-index: 10001 !important;
+}
+
+.workspace-topbar-actions .vesh-account-menu,
+.workspace-topbar-actions .vesh-account-menu--mobile-nav {
+  position: relative !important;
+  z-index: 10002 !important;
+  pointer-events: auto !important;
+}
+
+.workspace-topbar-actions .vesh-account-menu__panel,
+.workspace-topbar-actions .vesh-account-menu--mobile-nav > .vesh-account-menu__panel {
+  position: absolute !important;
+  z-index: 10003 !important;
+  pointer-events: auto !important;
+}
+
+.vesh-account-menu__panel .vesh-account-menu__account,
+.vesh-account-menu__panel .vesh-account-menu__account form {
+  position: relative !important;
+  z-index: 1 !important;
+  display: grid !important;
+  width: 100% !important;
+  pointer-events: auto !important;
+}
+
+.vesh-account-menu__panel .vesh-account-menu__account-action,
+.vesh-account-menu__panel .vesh-account-menu__account-action * {
+  position: relative;
+  pointer-events: auto !important;
+}
+
+.vesh-account-menu__panel .vesh-account-menu__account-action {
+  display: flex !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  min-height: 40px !important;
+  align-items: center !important;
+  cursor: pointer !important;
+}
