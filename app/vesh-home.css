@@ -5155,52 +5155,69 @@ select option,
 }
 
 
-/* Account menu clickability fix — keep Workspace and Memory headers above page content. */
-.workspace-topbar {
-  position: relative !important;
-  z-index: 10000 !important;
-  isolation: isolate !important;
+/* VESH targeted ambient toolkit surfaces — translucent, not solid black. */
+.vesh-workspace-overlay {
+  background: transparent !important;
 }
-
-.workspace-topbar-actions {
-  position: relative !important;
-  z-index: 10001 !important;
+.vesh-workspace-drawer,
+.vesh-interactive-rail {
+  background: rgba(7, 13, 11, 0.24) !important;
+  border-color: rgba(205, 223, 219, 0.10) !important;
+  box-shadow: none !important;
+  backdrop-filter: blur(18px) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
 }
-
-.workspace-topbar-actions .vesh-account-menu,
-.workspace-topbar-actions .vesh-account-menu--mobile-nav {
-  position: relative !important;
-  z-index: 10002 !important;
-  pointer-events: auto !important;
+.vesh-rail-button,
+.vesh-rail-button:hover,
+.vesh-rail-button.is-active {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
 }
-
-.workspace-topbar-actions .vesh-account-menu__panel,
-.workspace-topbar-actions .vesh-account-menu--mobile-nav > .vesh-account-menu__panel {
-  position: absolute !important;
-  z-index: 10003 !important;
-  pointer-events: auto !important;
+.vesh-drawer-summary,
+.vesh-drawer-card,
+.vesh-drawer-list,
+.vesh-task-item,
+.vesh-event-item,
+.vesh-note-item,
+.vesh-task-modal,
+.vesh-mini-chat__empty,
+.vesh-mini-chat__form,
+.vesh-quick-form {
+  background: rgba(7, 13, 11, 0.22) !important;
+  box-shadow: none !important;
 }
-
-.vesh-account-menu__panel .vesh-account-menu__account,
-.vesh-account-menu__panel .vesh-account-menu__account form {
-  position: relative !important;
-  z-index: 1 !important;
-  display: grid !important;
-  width: 100% !important;
-  pointer-events: auto !important;
+.vesh-mini-chat__messages {
+  background: rgba(7, 13, 11, 0.24) !important;
+  border: 1px solid rgba(205, 223, 219, 0.09) !important;
+  border-radius: 14px !important;
+  box-shadow: none !important;
 }
-
-.vesh-account-menu__panel .vesh-account-menu__account-action,
-.vesh-account-menu__panel .vesh-account-menu__account-action * {
-  position: relative;
-  pointer-events: auto !important;
+.vesh-mini-chat__empty-note { background: transparent !important; }
+.vesh-mini-chat__message { background: rgba(255, 255, 255, 0.035) !important; }
+.vesh-mini-chat__message.is-user { background: rgba(99, 155, 119, 0.09) !important; }
+.vesh-mini-chat__form textarea,
+.vesh-quick-form input,
+.vesh-quick-form textarea,
+.vesh-quick-form select {
+  background: rgba(7, 13, 11, 0.24) !important;
 }
-
-.vesh-account-menu__panel .vesh-account-menu__account-action {
-  display: flex !important;
-  width: 100% !important;
-  min-width: 100% !important;
-  min-height: 40px !important;
-  align-items: center !important;
-  cursor: pointer !important;
+.vesh-mic-toggle,
+.vesh-stop-speaking {
+  min-height: 36px !important;
+  padding: 7px 13px !important;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+  font-size: 12px !important;
+  font-weight: 550 !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.vesh-mic-toggle {
+  background: rgba(7, 13, 11, 0.22) !important;
+  border-color: rgba(175, 214, 193, 0.20) !important;
+}
+.vesh-stop-speaking {
+  background: rgba(35, 13, 15, 0.24) !important;
+  border-color: rgba(236, 151, 151, 0.24) !important;
 }
