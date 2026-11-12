@@ -1,0 +1,26 @@
+node_modules/
+.next/
+out/
+build/
+coverage/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+Thumbs.db
+
+# Internal development documentation
+IMPLEMENTATION-NOTES-*.md
+VOICE-FIX-NOTES.md
+VOICE-FOLLOWUP-NOTES.md
+AGENTS.md
+CLAUDE.md
+
+
+# Local project artifacts
+project-structure.txt
+zip.zip
+
+# TypeScript build cache
+*.tsbuildinfo

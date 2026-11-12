@@ -1,0 +1,4036 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@300;400;500;600;700&display=swap");
+/* =========================================================
+   VESH — AMBIENT HOME
+   Responsive foundation · Dark scene system · Companion
+   ========================================================= */
+
+.vesh-fullscreen-home {
+  --home-bg: #020304;
+  --home-text: #edf0ed;
+  --home-muted: #a0aaa5;
+  --home-faint: #7d8983;
+  --home-line: rgba(205, 220, 211, 0.14);
+  --home-panel: rgba(12, 17, 15, 0.82);
+  --home-accent: #c4dfce;
+
+  position: fixed;
+  z-index: 1;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--home-text);
+  background: var(--home-bg);
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.vesh-fullscreen-home *,
+.vesh-fullscreen-home *::before,
+.vesh-fullscreen-home *::after {
+  box-sizing: border-box;
+}
+
+.vesh-fullscreen-home button {
+  font: inherit;
+}
+
+.vesh-fullscreen-home button:focus-visible,
+.vesh-fullscreen-home a:focus-visible {
+  outline: 2px solid rgba(174, 220, 194, 0.85);
+  outline-offset: 4px;
+}
+
+/* =========================================================
+   AMBIENT BACKGROUND
+   ========================================================= */
+
+.vesh-atmosphere {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: #020304;
+  transition: background 900ms ease;
+}
+
+.vesh-atmosphere__vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  background:
+    radial-gradient(
+      ellipse at 50% 43%,
+      transparent 20%,
+      rgba(0, 0, 0, 0.26) 72%,
+      rgba(0, 0, 0, 0.76) 125%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.25),
+      transparent 22%,
+      transparent 78%,
+      rgba(0, 0, 0, 0.42)
+    );
+}
+
+.vesh-atmosphere__glow {
+  position: absolute;
+  width: min(65vw, 760px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  filter: blur(110px);
+  pointer-events: none;
+}
+
+.vesh-atmosphere__glow--one {
+  top: 7%;
+  left: 20%;
+  background: #637d83;
+  opacity: 0.045;
+  animation: vesh-glow-drift-one 28s ease-in-out infinite alternate;
+}
+
+.vesh-atmosphere__glow--two {
+  right: -22%;
+  bottom: -42%;
+  background: #526e68;
+  opacity: 0.025;
+  animation: vesh-glow-drift-two 34s ease-in-out infinite alternate;
+}
+
+.vesh-atmosphere__haze {
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  bottom: -28%;
+  height: 55%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse,
+    rgba(128, 153, 142, 0.035),
+    transparent 68%
+  );
+  filter: blur(55px);
+  animation: vesh-haze-drift 25s ease-in-out infinite alternate;
+}
+
+.vesh-atmosphere__floor {
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  bottom: -35%;
+  height: 45%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse,
+    rgba(130, 158, 144, 0.035),
+    transparent 70%
+  );
+  filter: blur(40px);
+  animation: vesh-floor-breathe 12s ease-in-out infinite alternate;
+}
+
+/* RAIN — visible moving rain, dark glass atmosphere */
+
+.vesh-atmosphere--rain {
+  background:
+    radial-gradient(
+      ellipse at 50% 42%,
+      rgba(25, 39, 43, 0.20),
+      transparent 58%
+    ),
+    linear-gradient(180deg, #05090b 0%, #020405 58%, #030506 100%);
+}
+
+.vesh-atmosphere--rain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.24;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 8%,
+      rgba(150, 177, 183, 0.035) 8.15%,
+      transparent 8.4%,
+      transparent 91%,
+      rgba(150, 177, 183, 0.025) 91.2%,
+      transparent 91.5%
+    ),
+    radial-gradient(
+      ellipse at 50% 0%,
+      rgba(123, 158, 169, 0.10),
+      transparent 65%
+    );
+}
+
+.vesh-atmosphere__rain {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0.85;
+  mask-image: linear-gradient(
+    180deg,
+    transparent,
+    #000 10%,
+    #000 88%,
+    transparent
+  );
+}
+
+
+.vesh-atmosphere__rain i {
+  position: absolute;
+  top: -12%;
+  width: 1px;
+  height: 22px;
+  border-radius: 50%;
+  background: linear-gradient(
+    transparent,
+    rgba(173, 199, 205, 0.28),
+    transparent
+  );
+  animation: vesh-rain-fall linear infinite;
+  will-change: transform;
+}
+
+
+/* NIGHT SKY — stars instead of rain */
+
+.vesh-atmosphere--night-sky {
+  background:
+    radial-gradient(
+      ellipse at 50% 35%,
+      rgba(26, 37, 67, 0.22),
+      transparent 60%
+    ),
+    linear-gradient(180deg, #030611 0%, #02040a 72%, #010204 100%);
+}
+
+.vesh-atmosphere--night-sky::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.3;
+  background: radial-gradient(
+    ellipse at 50% 40%,
+    rgba(75, 99, 145, 0.12),
+    transparent 65%
+  );
+}
+
+.vesh-atmosphere__stars {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.vesh-atmosphere__stars i {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #d8e5ff;
+  box-shadow: 0 0 7px rgba(174, 201, 255, 0.7);
+  animation: vesh-star-twinkle 4s ease-in-out infinite alternate;
+}
+
+/* FIREPLACE — warm light concentrated low in the scene */
+
+.vesh-atmosphere--fireplace {
+  background:
+    radial-gradient(
+      ellipse at 50% 100%,
+      rgba(87, 43, 19, 0.20),
+      transparent 58%
+    ),
+    linear-gradient(180deg, #050403 0%, #080604 70%, #0a0604 100%);
+}
+
+.vesh-atmosphere__fire {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.vesh-atmosphere__fire-glow {
+  position: absolute;
+  left: 50%;
+  bottom: -34%;
+  width: min(75vw, 850px);
+  height: 65%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse,
+    rgba(176, 83, 31, 0.20),
+    rgba(117, 51, 23, 0.08) 42%,
+    transparent 72%
+  );
+  filter: blur(40px);
+  animation: vesh-fire-glow 4s ease-in-out infinite alternate;
+}
+
+.vesh-atmosphere__flames {
+  position: absolute;
+  left: 15%;
+  right: 15%;
+  bottom: -20px;
+  height: 150px;
+  overflow: hidden;
+  opacity: 0.42;
+  mask-image: linear-gradient(0deg, #000, transparent 95%);
+}
+
+.vesh-atmosphere__flames i {
+  position: absolute;
+  bottom: 0;
+  width: 18px;
+  border-radius: 50% 50% 35% 35%;
+  background: linear-gradient(
+    0deg,
+    rgba(255, 114, 37, 0.8),
+    rgba(232, 156, 79, 0.30),
+    transparent
+  );
+  filter: blur(9px);
+  transform-origin: bottom center;
+  animation: vesh-flame-dance ease-in-out infinite alternate;
+}
+
+.vesh-atmosphere__embers {
+  position: absolute;
+  inset: 35% 0 0;
+  overflow: hidden;
+}
+
+.vesh-atmosphere__embers i {
+  position: absolute;
+  bottom: -10px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #f0a36a;
+  box-shadow: 0 0 9px rgba(255, 132, 54, 0.8);
+  animation: vesh-ember-rise ease-in-out infinite;
+}
+
+/* MINIMAL — intentionally pure darkness */
+
+.vesh-atmosphere--minimal {
+  background: #010203;
+}
+
+.vesh-atmosphere--minimal::before,
+.vesh-atmosphere--minimal::after {
+  display: none;
+}
+
+.vesh-atmosphere--minimal .vesh-atmosphere__vignette {
+  background: radial-gradient(
+    ellipse at center,
+    transparent 25%,
+    rgba(0, 0, 0, 0.45) 100%
+  );
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.vesh-home-header {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+  min-height: 76px;
+  padding: 0 clamp(22px, 4vw, 62px);
+}
+
+.vesh-wordmark {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 13px;
+  color: #edf0ed;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  white-space: nowrap;
+}
+
+.vesh-wordmark__symbol {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  height: 24px;
+}
+
+.vesh-wordmark__symbol i {
+  display: block;
+  width: 3px;
+  height: 16px;
+  border-radius: 5px;
+  background: #d9e6dd;
+  box-shadow: 0 0 12px rgba(203, 228, 211, 0.25);
+}
+
+.vesh-wordmark__symbol i:nth-child(2) {
+  height: 24px;
+}
+
+.vesh-wordmark__symbol i:nth-child(3) {
+  height: 13px;
+}
+
+.vesh-header-actions {
+  display: flex;
+  flex: 0 1 auto;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 9px;
+  min-width: 0;
+}
+
+.vesh-workspace-link,
+.vesh-fullscreen-button {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 15px;
+  border: 1px solid var(--home-line);
+  border-radius: 999px;
+  color: rgba(231, 237, 232, 0.78);
+  background: rgba(8, 12, 11, 0.70);
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  cursor: pointer;
+  transition:
+    color 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease;
+}
+
+.vesh-workspace-link:hover,
+.vesh-fullscreen-button:hover {
+  color: #fff;
+  border-color: rgba(190, 220, 201, 0.32);
+  background: rgba(31, 43, 36, 0.65);
+}
+
+.vesh-workspace-link span {
+  color: #c7d9c9;
+  font-size: 14px;
+}
+
+.vesh-fullscreen-button svg {
+  display: block;
+  flex: 0 0 auto;
+}
+
+/* =========================================================
+   SCENE SELECTOR
+   ========================================================= */
+
+.vesh-scene-picker {
+  display: flex;
+  flex: 0 1 auto;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  max-width: 100%;
+  padding: 5px 7px 5px 13px;
+  border: 1px solid var(--home-line);
+  border-radius: 999px;
+  background: rgba(8, 12, 11, 0.70);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.vesh-scene-picker__label {
+  flex: 0 0 auto;
+  color: var(--home-faint);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+
+.vesh-scene-picker__track {
+  display: flex;
+  flex: 0 1 auto;
+  align-items: center;
+  gap: 3px;
+  min-width: 0;
+  max-width: min(42vw, 390px);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.vesh-scene-picker__track::-webkit-scrollbar {
+  display: none;
+}
+
+.vesh-scene-picker__item {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: rgba(218, 228, 220, 0.66);
+  background: transparent;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease;
+}
+
+.vesh-scene-picker__item:hover {
+  color: #f2f5f1;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.vesh-scene-picker__item.is-active {
+  color: #f1f6f1;
+  border-color: rgba(189, 220, 199, 0.18);
+  background: rgba(174, 205, 183, 0.12);
+}
+
+/* =========================================================
+   MAIN STAGE
+   ========================================================= */
+
+.vesh-stage {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  padding: 12px 20px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.vesh-stage__date {
+  position: relative;
+  z-index: 2;
+  margin: 0 0 6px;
+  color: rgba(190, 204, 195, 0.72);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.17em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.vesh-stage__time {
+  position: relative;
+  z-index: 2;
+  color: rgba(242, 244, 239, 0.92);
+  font-size: clamp(40px, 5vw, 64px);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.075em;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 4px 35px rgba(160, 194, 177, 0.08);
+}
+
+/* =========================================================
+   COMPANION
+   ========================================================= */
+
+
+/* =========================================================
+   COMPANION — PRESERVE SVG PROPORTIONS
+   ========================================================= */
+
+.vesh-character {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: clamp(190px, 23vw, 270px);
+  height: auto;
+  aspect-ratio: 6 / 7;
+  min-height: 0;
+  margin: 12px 0 4px;
+  isolation: isolate;
+  overflow: visible;
+  animation: vesh-character-life 8s ease-in-out infinite;
+}
+
+.vesh-character > .companion {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 6 / 7;
+  overflow: visible;
+}
+
+.vesh-character .companion__figure {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  aspect-ratio: 6 / 7;
+  object-fit: contain;
+  overflow: visible;
+  filter: drop-shadow(0 14px 32px rgba(0,0,0,.32));
+}
+
+/* Keep the atmospheric effects behind the actual character. */
+
+.vesh-character__backlight {
+  position: absolute;
+  z-index: 0;
+  width: 78%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse,
+    rgba(130, 170, 160, .09),
+    transparent 70%
+  );
+  filter: blur(38px);
+}
+
+.vesh-character__floor-shadow {
+  position: absolute;
+  z-index: 0;
+  left: 18%;
+  right: 18%;
+  bottom: 3%;
+  height: 10%;
+  border-radius: 50%;
+  background: rgba(0,0,0,.65);
+  filter: blur(20px);
+}
+
+@media (max-width: 600px) {
+  .vesh-character {
+    width: clamp(155px, 48vw, 205px);
+    margin-top: 8px;
+  }
+}
+
+@media (max-height: 650px) {
+  .vesh-character {
+    width: clamp(145px, 19vw, 215px);
+  }
+}
+
+/* =========================================================
+   GREETING AND VOICE CAPTIONS
+   ========================================================= */
+
+.vesh-presence-copy {
+  position: relative;
+  z-index: 4;
+  flex: 0 0 auto;
+  width: min(100%, 700px);
+  margin: 10px 0 0;
+  padding: 0 12px;
+  text-align: center;
+  animation: vesh-copy-arrive 1s ease both;
+}
+
+.vesh-presence-copy h1 {
+  margin: 0;
+  color: rgba(246, 245, 239, 0.97);
+  font-family:
+    "Iowan Old Style",
+    "Palatino Linotype",
+    "Book Antiqua",
+    Georgia,
+    serif;
+  font-size: clamp(25px, 3.2vw, 40px);
+  font-weight: 400;
+  line-height: 1.16;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+.vesh-presence-copy p {
+  margin: 10px 0 0;
+  color: rgba(194, 207, 198, 0.78);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.025em;
+}
+
+.vesh-live-caption {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: min(640px, 90vw);
+  margin-top: 14px;
+  color: rgba(215, 226, 218, 0.86);
+  font-size: 12px;
+}
+
+.vesh-live-caption p {
+  margin: 0;
+  color: #eef4ef;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.vesh-live-indicator {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #91a197;
+}
+
+.vesh-live-indicator.is-speaking {
+  background: #c5e6d0;
+  box-shadow: 0 0 0 5px rgba(197, 230, 208, 0.10);
+  animation: vesh-speaking-pulse 1.1s ease-in-out infinite;
+}
+
+/* =========================================================
+   BOTTOM MODE CONTROL
+   ========================================================= */
+
+.vesh-home-footer {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 8px 18px max(18px, env(safe-area-inset-bottom));
+}
+
+.vesh-mode-control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  max-width: 100%;
+  padding: 5px;
+  border: 1px solid rgba(220, 232, 221, 0.15);
+  border-radius: 999px;
+  background: rgba(10, 14, 12, 0.78);
+  box-shadow: 0 12px 45px rgba(0, 0, 0, 0.24);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+}
+
+.vesh-mode-control button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-width: 112px;
+  min-height: 38px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  color: rgba(207, 218, 210, 0.76);
+  background: transparent;
+  font-size: 11px;
+  cursor: pointer;
+  transition:
+    color 180ms ease,
+    background 180ms ease;
+}
+
+.vesh-mode-control button:hover {
+  color: #f0f5ef;
+}
+
+.vesh-mode-control button.is-active {
+  color: #f0f5ef;
+  background: rgba(220, 238, 220, 0.12);
+}
+
+.vesh-mode-dot {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #657166;
+}
+
+.vesh-mode-control button.is-active .vesh-mode-dot {
+  background: #c4e3ca;
+  box-shadow: 0 0 9px rgba(196, 227, 202, 0.55);
+}
+
+.vesh-mode-caption {
+  min-height: 14px;
+  color: rgba(188, 202, 192, 0.72);
+  font-size: 10px;
+  line-height: 1.4;
+  letter-spacing: 0.025em;
+  text-align: center;
+}
+
+/* =========================================================
+   FULLSCREEN
+   ========================================================= */
+
+.vesh-fullscreen-home:fullscreen {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  background: #020304;
+}
+
+.vesh-fullscreen-home:fullscreen .vesh-home-header {
+  padding-top: max(12px, env(safe-area-inset-top));
+}
+
+.vesh-fullscreen-home:fullscreen .vesh-home-footer {
+  padding-bottom: max(18px, env(safe-area-inset-bottom));
+}
+
+/* =========================================================
+   MOTION
+   ========================================================= */
+
+@keyframes vesh-rain-fall {
+  from { transform: translate3d(0, -12vh, 0); }
+  to { transform: translate3d(-32px, 120vh, 0); }
+}
+
+@keyframes vesh-star-twinkle {
+  from { transform: scale(0.7); opacity: 0.25; }
+  to { transform: scale(1.25); opacity: 0.85; }
+}
+
+@keyframes vesh-fire-glow {
+  from { opacity: 0.55; transform: translateX(-50%) scale(0.96); }
+  to { opacity: 0.9; transform: translateX(-50%) scale(1.04); }
+}
+
+@keyframes vesh-flame-dance {
+  from { transform: scaleY(0.65) rotate(-5deg); opacity: 0.45; }
+  to { transform: scaleY(1.2) rotate(6deg); opacity: 0.9; }
+}
+
+@keyframes vesh-ember-rise {
+  0% { transform: translateY(0) scale(0.5); opacity: 0; }
+  20% { opacity: 0.75; }
+  100% { transform: translateY(-180px) scale(0.15); opacity: 0; }
+}
+
+@keyframes vesh-glow-drift-one {
+  from { transform: translate3d(-3%, 0, 0) scale(0.92); }
+  to { transform: translate3d(7%, 8%, 0) scale(1.12); }
+}
+
+@keyframes vesh-glow-drift-two {
+  from { transform: translate3d(0, 0, 0) scale(0.9); }
+  to { transform: translate3d(-8%, -7%, 0) scale(1.12); }
+}
+
+@keyframes vesh-haze-drift {
+  from { transform: translateX(-3%) scale(1); opacity: 0.35; }
+  to { transform: translateX(4%) scale(1.08); opacity: 0.7; }
+}
+
+@keyframes vesh-floor-breathe {
+  from { opacity: 0.3; transform: scaleX(0.9); }
+  to { opacity: 0.65; transform: scaleX(1.08); }
+}
+
+@keyframes vesh-character-life {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-3px) rotate(-0.2deg); }
+  55% { transform: translateY(-6px) rotate(0.2deg); }
+  78% { transform: translateY(-2px) rotate(-0.1deg); }
+}
+
+@keyframes vesh-character-light {
+  from { opacity: 0.4; transform: scale(0.92); }
+  to { opacity: 0.8; transform: scale(1.08); }
+}
+
+@keyframes vesh-character-shadow {
+  0%, 100% { transform: scaleX(1); opacity: 0.7; }
+  50% { transform: scaleX(0.88); opacity: 0.48; }
+}
+
+@keyframes vesh-orbit-one {
+  from { transform: rotate(-13deg); }
+  to { transform: rotate(347deg); }
+}
+
+@keyframes vesh-orbit-two {
+  from { transform: rotate(17deg); }
+  to { transform: rotate(-343deg); }
+}
+
+@keyframes vesh-copy-arrive {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes vesh-speaking-pulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(197, 228, 203, 0.08); }
+  50% { box-shadow: 0 0 0 7px rgba(197, 228, 203, 0.04); }
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .vesh-home-header {
+    padding-inline: 22px;
+  }
+
+  .vesh-scene-picker__label {
+    display: none;
+  }
+
+  .vesh-scene-picker {
+    padding-left: 6px;
+  }
+
+  .vesh-scene-picker__track {
+    max-width: 45vw;
+  }
+
+  .vesh-character {
+    width: min(320px, 36vw);
+    height: min(32vh, 270px);
+  }
+}
+
+/* =========================================================
+   MOBILE — 2-ROW HEADER, COMPACT STAGE
+   ========================================================= */
+
+@media (max-width: 600px) {
+  .vesh-home-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    align-items: center;
+    gap: 9px;
+    min-height: 0;
+    padding:
+      max(12px, env(safe-area-inset-top))
+      14px
+      8px;
+  }
+
+  .vesh-wordmark {
+    grid-row: 1;
+    gap: 9px;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+  }
+
+  .vesh-wordmark__symbol {
+    height: 21px;
+  }
+
+  .vesh-wordmark__symbol i:nth-child(2) {
+    height: 21px;
+  }
+
+  .vesh-header-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 38px auto;
+    grid-row: 2;
+    gap: 6px;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .vesh-scene-picker {
+    display: flex;
+    min-width: 0;
+    width: 100%;
+    padding: 3px;
+    overflow: hidden;
+    border-radius: 999px;
+  }
+
+  .vesh-scene-picker__track {
+    display: flex;
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 100%;
+    gap: 2px;
+    overflow-x: auto;
+    padding: 0 2px;
+    scrollbar-width: none;
+  }
+
+  .vesh-scene-picker__item {
+    min-height: 32px;
+    padding: 0 11px;
+    font-size: 10px;
+  }
+
+  .vesh-fullscreen-button {
+    width: 38px;
+    min-width: 38px;
+    min-height: 38px;
+    padding: 0;
+  }
+
+  .vesh-fullscreen-button span {
+    display: none;
+  }
+
+  .vesh-workspace-link {
+    min-height: 38px;
+    padding: 0 10px;
+    gap: 5px;
+    font-size: 10px;
+  }
+
+  .vesh-stage {
+    justify-content: center;
+    padding: 8px 14px 12px;
+  }
+
+  .vesh-stage__date {
+    margin-bottom: 5px;
+    color: rgba(202, 214, 205, 0.78);
+    font-size: 8px;
+    letter-spacing: 0.13em;
+  }
+
+  .vesh-stage__time {
+    font-size: clamp(38px, 12vw, 48px);
+  }
+
+  .vesh-character {
+    width: min(220px, 64vw);
+    height: clamp(145px, 25vh, 205px);
+    min-height: 0;
+    margin: 8px 0 0;
+  }
+
+  .vesh-presence-copy {
+    width: 100%;
+    margin-top: 8px;
+    padding-inline: 4px;
+  }
+
+  .vesh-presence-copy h1 {
+    font-size: clamp(22px, 7vw, 29px);
+    line-height: 1.16;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+  }
+
+  .vesh-presence-copy p {
+    margin-top: 7px;
+    color: rgba(199, 211, 202, 0.82);
+    font-size: 11px;
+    line-height: 1.45;
+    letter-spacing: 0.01em;
+  }
+
+  .vesh-live-caption {
+    margin-top: 9px;
+    font-size: 11px;
+  }
+
+  .vesh-live-caption p {
+    font-size: 12px;
+  }
+
+  .vesh-home-footer {
+    gap: 6px;
+    padding: 5px 12px max(12px, env(safe-area-inset-bottom));
+  }
+
+  .vesh-mode-control {
+    width: min(100%, 270px);
+    padding: 4px;
+  }
+
+  .vesh-mode-control button {
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 36px;
+    gap: 7px;
+    padding-inline: 8px;
+    font-size: 10px;
+  }
+
+  .vesh-mode-caption {
+    font-size: 9px;
+  }
+}
+
+/* Narrow phones */
+
+@media (max-width: 360px) {
+  .vesh-home-header {
+    padding-inline: 10px;
+  }
+
+  .vesh-header-actions {
+    grid-template-columns: minmax(0, 1fr) 36px auto;
+    gap: 5px;
+  }
+
+  .vesh-workspace-link {
+    padding-inline: 8px;
+    font-size: 9px;
+  }
+
+  .vesh-fullscreen-button {
+    width: 36px;
+    min-width: 36px;
+  }
+
+  .vesh-scene-picker__item {
+    padding-inline: 9px;
+    font-size: 9px;
+  }
+
+  .vesh-stage {
+    padding-inline: 10px;
+  }
+
+  .vesh-character {
+    width: min(195px, 62vw);
+    height: clamp(135px, 23vh, 175px);
+  }
+
+  .vesh-presence-copy h1 {
+    font-size: clamp(21px, 6.8vw, 25px);
+  }
+}
+
+/* Short screens */
+
+@media (max-height: 650px) {
+  .vesh-home-header {
+    min-height: 58px;
+  }
+
+  .vesh-character {
+    height: min(26vh, 210px);
+    min-height: 135px;
+    margin-top: 6px;
+  }
+
+  .vesh-presence-copy {
+    margin-top: 6px;
+  }
+
+  .vesh-presence-copy p {
+    margin-top: 5px;
+  }
+
+  .vesh-home-footer {
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-height: 520px) {
+  .vesh-stage__date {
+    display: none;
+  }
+
+  .vesh-character {
+    height: 22vh;
+    min-height: 100px;
+  }
+
+  .vesh-home-footer {
+    gap: 3px;
+  }
+
+  .vesh-mode-caption {
+    display: none;
+  }
+}
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .vesh-fullscreen-home *,
+  .vesh-fullscreen-home *::before,
+  .vesh-fullscreen-home *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* =========================================================
+   VESH — RESTORED AMBIENT HOME
+   Calm clock · companion presence · separate tools overlay
+   ========================================================= */
+
+.vesh-fullscreen-home {
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+}
+
+.vesh-ambient-layout {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(230px, 330px);
+  align-items: center;
+  gap: clamp(32px, 7vw, 112px);
+  width: min(1320px, 100%);
+  min-height: 0;
+  flex: 1 1 auto;
+  margin: 0 auto;
+  padding: clamp(24px, 4vh, 48px) clamp(28px, 6vw, 96px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(190, 210, 195, 0.18) transparent;
+}
+
+.vesh-ambient-center {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  max-width: 740px;
+  min-width: 0;
+  margin: 0 auto;
+  padding: clamp(12px, 2vw, 26px) 0;
+}
+
+.vesh-ambient-center .vesh-stage__date {
+  margin: 0 0 16px;
+  color: rgba(194, 207, 196, 0.57);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+}
+
+.vesh-ambient-center .vesh-stage__time {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  color: rgba(241, 242, 235, 0.94);
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(76px, 10vw, 136px);
+  font-weight: 300;
+  line-height: 0.98;
+  letter-spacing: -0.085em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.vesh-clock-seconds {
+  position: relative;
+  top: -0.1em;
+  color: rgba(196, 211, 199, 0.55);
+  font-size: 0.27em;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+}
+
+.vesh-ambient-center .vesh-presence-copy {
+  width: 100%;
+  margin: clamp(24px, 3.5vh, 42px) 0 0;
+  padding: 0;
+  text-align: left;
+}
+
+.vesh-ambient-center .vesh-presence-copy h1 {
+  font-size: clamp(29px, 3.1vw, 43px);
+  line-height: 1.17;
+}
+
+.vesh-ambient-center .vesh-presence-copy p {
+  margin-top: 12px;
+  font-size: 12px;
+  letter-spacing: 0.025em;
+}
+
+.vesh-quiet-tools-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: clamp(30px, 5vh, 54px);
+  padding: 10px 0;
+  border: 0;
+  border-bottom: 1px solid rgba(202, 220, 207, 0.22);
+  color: rgba(213, 226, 215, 0.68);
+  background: transparent;
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: color 180ms ease, border-color 180ms ease;
+}
+
+.vesh-quiet-tools-trigger:hover {
+  color: #f0f4ef;
+  border-color: rgba(207, 231, 213, 0.62);
+}
+
+.vesh-quiet-tools-trigger span:last-child {
+  color: rgba(191, 216, 198, 0.68);
+  font-size: 14px;
+}
+
+.vesh-ambient-companion {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  min-width: 0;
+  padding: 12px;
+  text-align: center;
+}
+
+.vesh-ambient-companion .vesh-character {
+  width: min(100%, 310px);
+  height: clamp(260px, 37vh, 360px);
+  min-height: 0;
+  margin: 0 0 10px;
+}
+
+.vesh-ambient-companion .vesh-character > .companion {
+  width: 100%;
+  height: 100%;
+}
+
+.vesh-companion-caption {
+  margin-top: 4px;
+  color: rgba(221, 231, 222, 0.72);
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.42em;
+}
+
+.vesh-companion-status {
+  margin-top: 8px;
+  color: rgba(170, 187, 174, 0.57);
+  font-size: 11px;
+  letter-spacing: 0.015em;
+}
+
+/* Environment dropdown — one consistent control, text-only options */
+.vesh-scene-picker {
+  position: relative;
+  display: block;
+  flex: 0 0 auto;
+  max-width: none;
+}
+
+.vesh-scene-picker__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 42px;
+  padding: 0 15px;
+  border: 1px solid rgba(220, 232, 221, 0.14);
+  border-radius: 999px;
+  color: rgba(231, 235, 228, 0.8);
+  background: rgba(255, 255, 255, 0.035);
+  font-family: inherit;
+  font-size: 11px;
+  cursor: pointer;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  transition: border-color 180ms ease, background 180ms ease;
+}
+
+.vesh-scene-picker__toggle:hover,
+.vesh-scene-picker.is-open .vesh-scene-picker__toggle {
+  border-color: rgba(220, 238, 225, 0.28);
+  background: rgba(255, 255, 255, 0.075);
+}
+
+.vesh-scene-picker__toggle-label {
+  color: rgba(176, 193, 180, 0.55);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.vesh-scene-picker__toggle-value {
+  color: #e7eee8;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.vesh-scene-picker__chevron {
+  width: 7px;
+  height: 7px;
+  margin-left: 2px;
+  border-right: 1px solid rgba(222, 233, 224, 0.72);
+  border-bottom: 1px solid rgba(222, 233, 224, 0.72);
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 180ms ease;
+}
+
+.vesh-scene-picker.is-open .vesh-scene-picker__chevron {
+  transform: translateY(2px) rotate(225deg);
+}
+
+.vesh-scene-picker__menu {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 9px);
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  width: 190px;
+  padding: 6px;
+  border: 1px solid rgba(205, 220, 211, 0.15);
+  border-radius: 13px;
+  background: rgba(8, 12, 10, 0.97);
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.48);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  animation: vesh-menu-enter 140ms ease both;
+}
+
+@keyframes vesh-menu-enter {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.vesh-scene-picker__option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 39px;
+  padding: 0 11px;
+  border: 0;
+  border-radius: 8px;
+  color: rgba(213, 224, 215, 0.74);
+  background: transparent;
+  font-family: inherit;
+  font-size: 11px;
+  text-align: left;
+  cursor: pointer;
+  transition: color 140ms ease, background 140ms ease;
+}
+
+.vesh-scene-picker__option:hover,
+.vesh-scene-picker__option.is-active {
+  color: #f1f5f0;
+  background: rgba(190, 220, 197, 0.10);
+}
+
+.vesh-scene-picker__option-check {
+  color: rgba(190, 220, 197, 0.55);
+  font-size: 9px;
+}
+
+/* Tools are a separate overlay, never part of the home composition */
+.vesh-tools-overlay {
+  position: absolute;
+  z-index: 25;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.48);
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+  animation: vesh-tools-fade 160ms ease both;
+}
+
+@keyframes vesh-tools-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.vesh-tools-dialog {
+  width: min(540px, 100%);
+  max-height: min(620px, 82vh);
+  overflow: auto;
+  padding: 25px;
+  border: 1px solid rgba(205, 220, 211, 0.16);
+  border-radius: 17px;
+  color: #edf1ed;
+  background: linear-gradient(145deg, rgba(17, 24, 20, 0.98), rgba(5, 8, 7, 0.99));
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.5);
+}
+
+.vesh-tools-dialog__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.vesh-tools-dialog__eyebrow {
+  margin-bottom: 8px;
+  color: rgba(180, 200, 185, 0.6);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.vesh-tools-dialog__title {
+  margin: 0;
+  color: #edf1ed;
+  font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  font-size: 29px;
+  font-weight: 400;
+  letter-spacing: -0.035em;
+}
+
+.vesh-tools-dialog__close {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(205, 220, 211, 0.14);
+  border-radius: 50%;
+  color: rgba(221, 231, 222, 0.75);
+  background: rgba(255, 255, 255, 0.035);
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.vesh-tools-list {
+  display: grid;
+  gap: 8px;
+}
+
+.vesh-tools-list button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 62px;
+  padding: 12px 15px;
+  border: 1px solid rgba(205, 220, 211, 0.10);
+  border-radius: 10px;
+  color: #e8eee8;
+  background: rgba(255, 255, 255, 0.025);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.vesh-tools-list button:hover {
+  border-color: rgba(190, 220, 197, 0.26);
+  background: rgba(190, 220, 197, 0.07);
+}
+
+.vesh-tools-list button span:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.vesh-tools-list strong {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.vesh-tools-list small {
+  color: rgba(180, 196, 184, 0.57);
+  font-size: 10px;
+}
+
+.vesh-tools-list button > span:last-child {
+  color: rgba(190, 220, 197, 0.65);
+  font-size: 15px;
+}
+
+.vesh-tool-detail__value {
+  margin: 24px 0;
+  color: #eff3ef;
+  font-size: clamp(48px, 9vw, 76px);
+  font-weight: 300;
+  letter-spacing: -0.07em;
+  font-variant-numeric: tabular-nums;
+}
+
+.vesh-tool-detail__input {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 150px;
+  margin-bottom: 18px;
+  color: rgba(180, 198, 184, 0.65);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.vesh-tool-detail__input input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid rgba(205, 220, 211, 0.15);
+  border-radius: 7px;
+  outline: none;
+  color: #edf1ed;
+  background: rgba(0, 0, 0, 0.25);
+  font: inherit;
+  font-size: 14px;
+}
+
+.vesh-tool-detail__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.vesh-tool-detail__actions button {
+  min-height: 37px;
+  padding: 0 17px;
+  border: 1px solid rgba(205, 220, 211, 0.15);
+  border-radius: 999px;
+  color: rgba(230, 238, 231, 0.82);
+  background: rgba(255, 255, 255, 0.035);
+  font-family: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.vesh-tool-detail__actions button.is-primary {
+  border-color: transparent;
+  color: #08100a;
+  background: #c5ddca;
+}
+
+.vesh-tool-detail__back {
+  margin: 0 0 20px;
+  padding: 0;
+  border: 0;
+  color: rgba(190, 215, 196, 0.7);
+  background: transparent;
+  font-family: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.vesh-world-clock-list {
+  display: grid;
+  gap: 0;
+  margin-top: 16px;
+}
+
+.vesh-world-clock-list > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(205, 220, 211, 0.10);
+  color: rgba(212, 224, 215, 0.72);
+  font-size: 12px;
+}
+
+.vesh-world-clock-list time {
+  color: #edf1ed;
+  font-size: 17px;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 760px) {
+  .vesh-home-header {
+    min-height: 64px;
+    padding-inline: 16px;
+  }
+
+  .vesh-header-actions {
+    gap: 7px;
+  }
+
+  .vesh-ambient-layout {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: center;
+    gap: 12px;
+    padding: 16px 22px 22px;
+  }
+
+  .vesh-ambient-center {
+    align-items: center;
+    text-align: center;
+  }
+
+  .vesh-ambient-center .vesh-stage__time {
+    justify-content: center;
+    font-size: clamp(68px, 16vw, 100px);
+  }
+
+  .vesh-ambient-center .vesh-presence-copy {
+    text-align: center;
+  }
+
+  .vesh-quiet-tools-trigger {
+    margin-top: 24px;
+  }
+
+  .vesh-ambient-companion {
+    padding: 0;
+  }
+
+  .vesh-ambient-companion .vesh-character {
+    width: min(190px, 43vw);
+    height: clamp(155px, 23vh, 210px);
+  }
+
+  .vesh-tools-overlay {
+    padding: 14px;
+  }
+
+  .vesh-tools-dialog {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 430px) {
+  .vesh-home-header {
+    min-height: 58px;
+    padding-inline: 12px;
+  }
+
+  .vesh-wordmark {
+    gap: 8px;
+    font-size: 11px;
+  }
+
+  .vesh-scene-picker__toggle {
+    min-height: 36px;
+    gap: 8px;
+    padding-inline: 10px;
+  }
+
+  .vesh-scene-picker__toggle-label {
+    display: none;
+  }
+
+  .vesh-fullscreen-button {
+    min-width: 36px;
+    width: 36px;
+    min-height: 36px;
+    padding: 0;
+  }
+
+  .vesh-fullscreen-button span {
+    display: none;
+  }
+
+  .vesh-workspace-link {
+    min-height: 36px;
+    padding-inline: 10px;
+    font-size: 9px;
+  }
+
+  .vesh-ambient-layout {
+    padding-inline: 15px;
+  }
+
+  .vesh-ambient-center .vesh-stage__time {
+    font-size: clamp(60px, 17vw, 78px);
+  }
+
+  .vesh-ambient-center .vesh-presence-copy h1 {
+    font-size: 27px;
+  }
+}
+
+@media (max-height: 650px) and (min-width: 761px) {
+  .vesh-home-header {
+    min-height: 60px;
+  }
+
+  .vesh-ambient-layout {
+    padding-block: 12px;
+  }
+
+  .vesh-ambient-center .vesh-stage__time {
+    font-size: clamp(64px, 8vw, 104px);
+  }
+
+  .vesh-ambient-companion .vesh-character {
+    height: min(30vh, 250px);
+  }
+
+  .vesh-ambient-center .vesh-presence-copy {
+    margin-top: 20px;
+  }
+
+  .vesh-quiet-tools-trigger {
+    margin-top: 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vesh-tools-overlay,
+  .vesh-scene-picker__menu {
+    animation: none !important;
+  }
+}
+/* =========================================================
+   VESH — FOUR-AREA QUIET HOME
+   One visual system · Clock · Companion · Utilities
+   ========================================================= */
+
+/* Area 1 + Area 2 */
+.vesh-ambient-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+  align-items: center;
+  justify-content: center;
+  gap: clamp(36px, 5vw, 90px);
+  width: min(1480px, 100%);
+  min-height: 0;
+  flex: 1 1 auto;
+  margin: 0 auto;
+  padding: clamp(20px, 3vh, 36px) clamp(34px, 5.5vw, 88px);
+  overflow: hidden;
+}
+
+/* Area 1 — keep the clock centred inside its own region */
+.vesh-ambient-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 700px;
+  min-width: 0;
+  margin: 0 auto;
+  padding: 18px 10px;
+  text-align: center;
+}
+
+.vesh-ambient-center .vesh-stage__date {
+  margin: 0 0 18px;
+  color: rgba(195, 208, 198, 0.62);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.19em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.vesh-ambient-center .vesh-stage__time {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 10px;
+  color: rgba(244, 245, 239, 0.94);
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(76px, 7.2vw, 116px);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.085em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  text-shadow: 0 5px 38px rgba(170, 205, 183, 0.07);
+}
+
+.vesh-clock-seconds {
+  position: relative;
+  top: -0.12em;
+  color: rgba(194, 210, 198, 0.48);
+  font-size: 0.25em;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+}
+
+.vesh-ambient-center .vesh-presence-copy {
+  width: 100%;
+  max-width: 620px;
+  margin: clamp(22px, 3vh, 34px) 0 0;
+  padding: 0;
+  text-align: center;
+}
+
+.vesh-ambient-center .vesh-presence-copy h1 {
+  color: rgba(246, 245, 239, 0.96);
+  font-size: clamp(29px, 2.7vw, 39px);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.045em;
+}
+
+.vesh-ambient-center .vesh-presence-copy p {
+  margin-top: 11px;
+  color: rgba(194, 207, 198, 0.7);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* Four quiet utility icons */
+.vesh-utility-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 2.1vw, 30px);
+  width: fit-content;
+  max-width: 100%;
+  margin: clamp(28px, 4.5vh, 46px) auto 0;
+  padding: 0;
+}
+
+.vesh-utility-nav button {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 62px;
+  min-height: 62px;
+  padding: 8px 4px;
+  border: 0;
+  border-radius: 12px;
+  color: rgba(190, 203, 193, 0.48);
+  background: transparent;
+  cursor: pointer;
+  transition:
+    color 180ms ease,
+    background 180ms ease,
+    transform 180ms ease;
+}
+
+.vesh-utility-nav button:hover {
+  color: rgba(226, 237, 227, 0.88);
+  background: rgba(205, 225, 209, 0.045);
+}
+
+.vesh-utility-nav button.is-active {
+  color: #d8e9dc;
+  background: rgba(190, 220, 197, 0.075);
+}
+
+.vesh-utility-nav button svg {
+  display: block;
+  width: 22px;
+  height: 22px;
+  opacity: 0.9;
+}
+
+.vesh-utility-nav button span {
+  color: inherit;
+  font-family: inherit;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.015em;
+  white-space: nowrap;
+}
+
+.vesh-utility-nav button.is-active::after {
+  position: absolute;
+  right: 19px;
+  bottom: 2px;
+  left: 19px;
+  height: 1px;
+  border-radius: 2px;
+  background: rgba(203, 229, 208, 0.72);
+  content: "";
+}
+
+/* Utility views remain inside Area 1 */
+.vesh-utility-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 280px;
+  animation: vesh-utility-enter 260ms ease both;
+}
+
+@keyframes vesh-utility-enter {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.vesh-utility-eyebrow {
+  margin-bottom: 13px;
+  color: rgba(190, 204, 195, 0.58);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+}
+
+.vesh-utility-view h2 {
+  margin: 0;
+  color: rgba(245, 245, 238, 0.96);
+  font-family:
+    "Iowan Old Style",
+    "Palatino Linotype",
+    Georgia,
+    serif;
+  font-size: clamp(29px, 2.8vw, 39px);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+}
+
+.vesh-utility-value {
+  margin: 26px 0 20px;
+  color: rgba(242, 244, 239, 0.94);
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(62px, 7vw, 96px);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.075em;
+  font-variant-numeric: tabular-nums;
+}
+
+.vesh-utility-input {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+  width: 150px;
+  margin: 0 auto 17px;
+  color: rgba(180, 196, 184, 0.65);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+}
+
+.vesh-utility-input input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid rgba(205, 220, 211, 0.15);
+  border-radius: 7px;
+  outline: none;
+  color: #edf1ed;
+  background: rgba(255, 255, 255, 0.035);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 14px;
+}
+
+.vesh-utility-input input:focus {
+  border-color: rgba(190, 220, 197, 0.4);
+}
+
+.vesh-utility-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 8px;
+}
+
+.vesh-utility-actions button {
+  min-width: 92px;
+  min-height: 37px;
+  padding: 0 17px;
+  border: 1px solid rgba(205, 220, 211, 0.15);
+  border-radius: 999px;
+  color: rgba(230, 238, 231, 0.82);
+  background: rgba(255, 255, 255, 0.035);
+  font-family: inherit;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease;
+}
+
+.vesh-utility-actions button:hover {
+  border-color: rgba(205, 230, 210, 0.28);
+  background: rgba(190, 220, 197, 0.07);
+}
+
+.vesh-utility-actions button.is-primary {
+  border-color: transparent;
+  color: #101812;
+  background: #c5ddca;
+}
+
+.vesh-utility-message {
+  margin: 14px 0 0;
+  color: #c5ddca;
+  font-size: 11px;
+}
+
+.vesh-world-clock-list {
+  display: grid;
+  width: min(380px, 100%);
+  margin-top: 20px;
+}
+
+.vesh-world-clock-list > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 13px 3px;
+  border-bottom: 1px solid rgba(205, 220, 211, 0.10);
+  color: rgba(207, 220, 210, 0.72);
+  font-size: 12px;
+}
+
+.vesh-world-clock-list time {
+  color: #edf1ed;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Area 2 — companion balances the clock */
+.vesh-ambient-companion {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  min-width: 0;
+  padding: 10px;
+  text-align: center;
+}
+
+.vesh-ambient-companion .vesh-character {
+  width: clamp(230px, 24vw, 330px);
+  height: auto;
+  aspect-ratio: 6 / 7;
+  margin: 0 0 10px;
+}
+
+.vesh-ambient-companion .vesh-character > .companion {
+  width: 100%;
+  height: 100%;
+}
+
+.vesh-companion-caption {
+  margin-top: 5px;
+  color: rgba(221, 231, 222, 0.72);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.42em;
+}
+
+.vesh-companion-status {
+  margin-top: 8px;
+  color: rgba(170, 187, 174, 0.57);
+  font-size: 11px;
+}
+
+/* Area 4 — header controls share the same visual language */
+.vesh-home-header {
+  min-height: 72px;
+  padding-inline: clamp(24px, 4vw, 62px);
+}
+
+.vesh-header-actions {
+  gap: 9px;
+}
+
+.vesh-scene-picker__toggle,
+.vesh-fullscreen-button,
+.vesh-workspace-link {
+  min-height: 42px;
+  border: 1px solid rgba(220, 232, 221, 0.14);
+  border-radius: 999px;
+  color: rgba(231, 237, 232, 0.78);
+  background: rgba(8, 12, 11, 0.70);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0;
+  box-shadow: none;
+}
+
+.vesh-scene-picker__toggle {
+  gap: 11px;
+  padding-inline: 15px;
+}
+
+.vesh-scene-picker__toggle-label {
+  color: rgba(190, 204, 195, 0.54);
+  font-family: inherit;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.vesh-scene-picker__toggle-value {
+  color: rgba(231, 237, 232, 0.86);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.vesh-fullscreen-button,
+.vesh-workspace-link {
+  padding-inline: 15px;
+}
+
+.vesh-scene-picker__toggle:hover,
+.vesh-fullscreen-button:hover,
+.vesh-workspace-link:hover {
+  border-color: rgba(205, 230, 210, 0.25);
+  color: #f0f5ef;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+/* Area 3 — mode switch remains anchored below the main composition */
+.vesh-home-footer {
+  flex: 0 0 auto;
+  padding-top: 7px;
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
+}
+
+/* Responsive composition */
+@media (max-width: 900px) {
+  .vesh-ambient-layout {
+    grid-template-columns: minmax(0, 1.1fr) minmax(230px, 0.9fr);
+    gap: 22px;
+    padding-inline: 24px;
+  }
+
+  .vesh-ambient-companion .vesh-character {
+    width: clamp(190px, 25vw, 250px);
+  }
+
+  .vesh-ambient-center .vesh-stage__time {
+    font-size: clamp(66px, 8vw, 88px);
+  }
+}
+
+@media (max-width: 680px) {
+  .vesh-ambient-layout {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: center;
+    gap: 12px;
+    padding: 16px 18px;
+    overflow-y: auto;
+  }
+
+  .vesh-ambient-center {
+    order: 1;
+    padding: 12px 0;
+  }
+
+  .vesh-ambient-center .vesh-stage__time {
+    font-size: clamp(64px, 16vw, 88px);
+  }
+
+  .vesh-ambient-center .vesh-presence-copy {
+    margin-top: 22px;
+    text-align: center;
+  }
+
+  .vesh-ambient-companion {
+    order: 2;
+    padding: 0;
+  }
+
+  .vesh-ambient-companion .vesh-character {
+    width: clamp(125px, 34vw, 175px);
+  }
+
+  .vesh-utility-nav {
+    gap: 9px;
+    margin-top: 22px;
+  }
+
+  .vesh-utility-nav button {
+    width: 58px;
+    min-height: 56px;
+  }
+
+  .vesh-home-header {
+    min-height: 62px;
+    padding-inline: 14px;
+  }
+
+  .vesh-header-actions {
+    gap: 6px;
+  }
+
+  .vesh-scene-picker__toggle-label {
+    display: none;
+  }
+
+  .vesh-fullscreen-button {
+    min-width: 40px;
+    padding-inline: 10px;
+  }
+}
+
+@media (max-height: 720px) and (min-width: 681px) {
+  .vesh-home-header {
+    min-height: 62px;
+  }
+
+  .vesh-ambient-layout {
+    padding-block: 12px;
+  }
+
+  .vesh-ambient-center .vesh-stage__time {
+    font-size: clamp(66px, 7vw, 94px);
+  }
+
+  .vesh-ambient-center .vesh-presence-copy {
+    margin-top: 20px;
+  }
+
+  .vesh-utility-nav {
+    margin-top: 22px;
+  }
+
+  .vesh-ambient-companion .vesh-character {
+    width: clamp(190px, 21vw, 270px);
+  }
+
+  .vesh-home-footer {
+    padding-bottom: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vesh-utility-view {
+    animation: none;
+  }
+}
+
+/* =====================================================
+   VESH — VERTICAL UTILITY RAIL & BALANCED HOME
+   ===================================================== */
+
+.vesh-ambient-layout {
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+  gap: clamp(20px, 3vw, 52px);
+  width: min(1540px, 100%);
+  padding-left: clamp(70px, 8vw, 120px);
+  padding-right: clamp(45px, 6vw, 90px);
+  overflow: visible;
+}
+
+.vesh-ambient-center {
+  position: relative;
+  width: 100%;
+  max-width: 780px;
+  min-width: 0;
+  padding: 24px 0;
+}
+
+/* Vertical icon rail */
+.vesh-utility-nav {
+  position: absolute;
+  top: 50%;
+  left: clamp(-94px, -7vw, -70px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 52px;
+  margin: 0;
+  padding: 8px 0;
+  transform: translateY(-50%);
+}
+
+.vesh-utility-nav button {
+  width: 46px;
+  min-height: 46px;
+  gap: 0;
+  padding: 10px;
+  border-radius: 12px;
+}
+
+.vesh-utility-nav button svg {
+  width: 22px;
+  height: 22px;
+}
+
+.vesh-utility-nav button span {
+  position: absolute;
+  left: calc(100% + 12px);
+  top: 50%;
+  z-index: 10;
+  width: max-content;
+  padding: 6px 9px;
+  border: 1px solid rgba(205, 220, 211, 0.12);
+  border-radius: 6px;
+  color: rgba(235, 240, 235, 0.9);
+  background: rgba(9, 13, 11, 0.95);
+  font-size: 10px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-50%) translateX(-4px);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.vesh-utility-nav button:hover span,
+.vesh-utility-nav button:focus-visible span {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+.vesh-utility-nav button.is-active::after {
+  right: 13px;
+  bottom: 4px;
+  left: 13px;
+}
+
+/* Give the clock more visual presence */
+.vesh-ambient-center .vesh-stage__time {
+  font-size: clamp(88px, 8.5vw, 132px);
+}
+
+.vesh-ambient-center .vesh-presence-copy {
+  margin-top: 30px;
+}
+
+/* Bring the companion closer to the main content */
+.vesh-ambient-companion .vesh-character {
+  width: clamp(250px, 25vw, 350px);
+}
+
+/* Keep the rail usable on smaller screens */
+@media (max-width: 900px) {
+  .vesh-ambient-layout {
+    padding-left: 65px;
+    padding-right: 24px;
+    gap: 16px;
+  }
+
+  .vesh-utility-nav {
+    left: -60px;
+  }
+
+  .vesh-ambient-center .vesh-stage__time {
+    font-size: clamp(68px, 9vw, 96px);
+  }
+}
+
+@media (max-width: 680px) {
+  .vesh-ambient-layout {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 18px 16px;
+    overflow-y: auto;
+  }
+
+  .vesh-utility-nav {
+    position: static;
+    order: 0;
+    flex-direction: row;
+    width: fit-content;
+    margin: 0 auto 20px;
+    padding: 0;
+    transform: none;
+  }
+
+  .vesh-utility-nav button span {
+    display: none;
+  }
+
+  .vesh-ambient-center {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .vesh-ambient-center .vesh-stage__time {
+    font-size: clamp(64px, 15vw, 88px);
+  }
+}
+
+/* =========================================================
+   VESH — COMPACT HEADER, BALANCED STAGE & ADVANCED TOOLS
+   ========================================================= */
+
+/* Reduce the empty space between the clock and companion */
+.vesh-ambient-layout {
+  grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.92fr);
+  gap: clamp(0px, 1.2vw, 18px);
+  padding-left: clamp(76px, 7vw, 105px);
+  padding-right: clamp(30px, 4vw, 60px);
+}
+
+.vesh-ambient-center {
+  transform: translateX(45px);
+}
+
+.vesh-ambient-companion {
+  transform: translateX(-65px);
+}
+
+.vesh-ambient-companion .vesh-character {
+  width: clamp(245px, 24vw, 330px);
+}
+
+/* Compact icon buttons in the header */
+.vesh-header-actions {
+  gap: 10px;
+}
+
+.vesh-scene-picker {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.vesh-scene-icon-button,
+.vesh-fullscreen-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 43px;
+  min-width: 43px;
+  height: 43px;
+  min-height: 43px;
+  padding: 0;
+  border: 1px solid rgba(205, 220, 211, 0.14);
+  border-radius: 50%;
+  color: rgba(214, 226, 216, 0.76);
+  background: rgba(8, 12, 11, 0.48);
+  cursor: pointer;
+  transition:
+    color 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.vesh-scene-icon-button:hover,
+.vesh-scene-picker.is-open .vesh-scene-icon-button,
+.vesh-fullscreen-button:hover {
+  color: #edf5ee;
+  border-color: rgba(198, 225, 204, 0.32);
+  background: rgba(190, 220, 197, 0.09);
+}
+
+.vesh-fullscreen-button svg {
+  width: 19px;
+  height: 19px;
+}
+
+.vesh-fullscreen-button span {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  z-index: 20;
+  width: max-content;
+  padding: 6px 9px;
+  border: 1px solid rgba(205, 220, 211, 0.12);
+  border-radius: 6px;
+  color: rgba(235, 240, 235, 0.9);
+  background: rgba(9, 13, 11, 0.96);
+  font-size: 10px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(-3px);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.vesh-fullscreen-button:hover span,
+.vesh-fullscreen-button:focus-visible span {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.vesh-header-tooltip {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  z-index: 30;
+  width: max-content;
+  padding: 6px 9px;
+  border: 1px solid rgba(205, 220, 211, 0.12);
+  border-radius: 6px;
+  color: rgba(235, 240, 235, 0.9);
+  background: rgba(9, 13, 11, 0.96);
+  font-size: 10px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(-3px);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.vesh-scene-icon-button:hover .vesh-header-tooltip,
+.vesh-scene-icon-button:focus-visible .vesh-header-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Environment menu */
+.vesh-scene-icon-menu {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 11px);
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  width: 190px;
+  padding: 8px;
+  border: 1px solid rgba(205, 220, 211, 0.14);
+  border-radius: 13px;
+  background: rgba(8, 12, 10, 0.97);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  animation: vesh-menu-enter 160ms ease both;
+}
+
+.vesh-scene-icon-menu__heading {
+  padding: 9px 10px 11px;
+  color: rgba(180, 196, 184, 0.52);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+}
+
+.vesh-scene-icon-menu button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 38px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 7px;
+  color: rgba(222, 232, 224, 0.72);
+  background: transparent;
+  font-family: inherit;
+  font-size: 11px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.vesh-scene-icon-menu button:hover,
+.vesh-scene-icon-menu button.is-active {
+  color: #edf5ee;
+  background: rgba(190, 220, 197, 0.09);
+}
+
+.vesh-scene-icon-menu button.is-active > span:last-child {
+  color: #c5ddca;
+}
+
+@keyframes vesh-menu-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Timer — three-part custom duration */
+.vesh-timer-fields {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin: 3px 0 17px;
+}
+
+.vesh-timer-fields label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.vesh-timer-fields input {
+  width: 67px;
+  height: 48px;
+  border: 1px solid rgba(205, 220, 211, 0.15);
+  border-radius: 8px;
+  outline: none;
+  color: #edf1ed;
+  background: rgba(255, 255, 255, 0.035);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 19px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.vesh-timer-fields input:focus {
+  border-color: rgba(190, 220, 197, 0.42);
+}
+
+.vesh-timer-fields input:disabled {
+  opacity: 0.6;
+}
+
+.vesh-timer-fields label > span {
+  color: rgba(180, 196, 184, 0.52);
+  font-size: 9px;
+}
+
+.vesh-timer-colon {
+  align-self: flex-start;
+  margin-top: 12px;
+  color: rgba(190, 204, 195, 0.55);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 19px;
+}
+
+.vesh-timer-presets {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 7px;
+  margin-bottom: 17px;
+}
+
+.vesh-timer-presets button {
+  padding: 7px 11px;
+  border: 1px solid rgba(205, 220, 211, 0.12);
+  border-radius: 999px;
+  color: rgba(211, 223, 213, 0.68);
+  background: rgba(255, 255, 255, 0.025);
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.vesh-timer-presets button:hover:not(:disabled) {
+  border-color: rgba(205, 230, 210, 0.3);
+  color: #edf5ee;
+  background: rgba(190, 220, 197, 0.07);
+}
+
+.vesh-timer-presets button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Stopwatch laps */
+.vesh-stopwatch-view {
+  min-height: 0;
+}
+
+.vesh-lap-list {
+  width: min(440px, 100%);
+  max-height: 190px;
+  margin-top: 22px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(190, 220, 197, 0.2) transparent;
+}
+
+.vesh-lap-list__heading,
+.vesh-lap-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 7px;
+  border-bottom: 1px solid rgba(205, 220, 211, 0.09);
+  font-variant-numeric: tabular-nums;
+}
+
+.vesh-lap-list__heading {
+  position: sticky;
+  top: 0;
+  color: rgba(180, 196, 184, 0.5);
+  background: rgba(8, 12, 10, 0.96);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+
+.vesh-lap-row {
+  color: rgba(225, 234, 226, 0.8);
+  font-size: 10px;
+}
+
+.vesh-lap-row time {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  text-align: right;
+}
+
+.vesh-lap-row > span {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+}
+
+.vesh-lap-row small {
+  font-size: 8px;
+}
+
+.vesh-lap-row .is-fastest {
+  color: #b9dfc2;
+}
+
+.vesh-lap-row .is-slowest {
+  color: #d9b6a2;
+}
+
+.vesh-lap-list__empty {
+  padding: 15px 7px;
+  color: rgba(180, 196, 184, 0.48);
+  font-size: 10px;
+  text-align: center;
+}
+
+/* World clock city search and list */
+.vesh-world-view {
+  min-height: 0;
+}
+
+.vesh-city-search {
+  position: relative;
+  z-index: 5;
+  width: min(380px, 100%);
+  margin: 18px auto 10px;
+}
+
+.vesh-city-search > input {
+  width: 100%;
+  height: 39px;
+  padding: 0 13px;
+  border: 1px solid rgba(205, 220, 211, 0.14);
+  border-radius: 8px;
+  outline: none;
+  color: #edf1ed;
+  background: rgba(255, 255, 255, 0.035);
+  font-family: inherit;
+  font-size: 11px;
+}
+
+.vesh-city-search > input:focus {
+  border-color: rgba(190, 220, 197, 0.4);
+}
+
+.vesh-city-search > input::placeholder {
+  color: rgba(180, 196, 184, 0.42);
+}
+
+.vesh-city-suggestions {
+  position: absolute;
+  top: calc(100% + 5px);
+  right: 0;
+  left: 0;
+  max-height: 220px;
+  padding: 5px;
+  overflow-y: auto;
+  border: 1px solid rgba(205, 220, 211, 0.14);
+  border-radius: 9px;
+  background: rgba(8, 12, 10, 0.98);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+.vesh-city-suggestions button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 34px;
+  padding: 0 9px;
+  border: 0;
+  border-radius: 5px;
+  color: rgba(224, 233, 225, 0.82);
+  background: transparent;
+  font-size: 10px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.vesh-city-suggestions button:hover {
+  background: rgba(190, 220, 197, 0.09);
+}
+
+.vesh-city-suggestions button span:last-child {
+  color: #c5ddca;
+}
+
+.vesh-city-suggestions p {
+  padding: 9px;
+  color: rgba(180, 196, 184, 0.55);
+  font-size: 10px;
+}
+
+.vesh-world-clock-list {
+  width: min(430px, 100%);
+  max-height: 245px;
+  margin-top: 8px;
+  overflow-y: auto;
+}
+
+.vesh-world-clock-list > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto 24px;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 3px;
+}
+
+.vesh-world-city-name {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.vesh-world-city-name strong {
+  color: rgba(226, 235, 227, 0.84);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.vesh-world-city-name small {
+  color: rgba(180, 196, 184, 0.48);
+  font-size: 9px;
+}
+
+.vesh-world-clock-list time {
+  color: #edf1ed;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 15px;
+}
+
+.vesh-world-clock-list > div > button {
+  width: 23px;
+  height: 23px;
+  border: 0;
+  border-radius: 50%;
+  color: rgba(180, 196, 184, 0.45);
+  background: transparent;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.vesh-world-clock-list > div > button:hover {
+  color: #e5b9a9;
+  background: rgba(229, 185, 169, 0.08);
+}
+
+.vesh-world-hint {
+  margin-top: 10px;
+  color: rgba(180, 196, 184, 0.44);
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+/* Compact header alignment */
+.vesh-header-actions {
+  gap: 9px;
+}
+
+.vesh-workspace-link {
+  min-height: 43px;
+}
+
+@media (max-width: 900px) {
+  .vesh-ambient-layout {
+    gap: 0;
+    padding-left: 70px;
+    padding-right: 25px;
+  }
+
+  .vesh-ambient-center {
+    transform: translateX(25px);
+  }
+
+  .vesh-ambient-companion {
+    transform: translateX(-35px);
+  }
+}
+
+@media (max-width: 680px) {
+  .vesh-ambient-layout {
+    padding: 18px 16px;
+  }
+
+  .vesh-ambient-center,
+  .vesh-ambient-companion {
+    transform: none;
+  }
+
+  .vesh-utility-view {
+    width: 100%;
+  }
+
+  .vesh-lap-list {
+    max-height: 150px;
+  }
+
+  .vesh-world-clock-list {
+    max-height: 190px;
+  }
+
+  .vesh-workspace-link {
+    min-width: 40px;
+    padding-inline: 10px;
+    font-size: 0;
+  }
+
+  .vesh-workspace-link span {
+    font-size: 14px;
+  }
+}
+
+/* =====================================================
+   VESH — REFINED TYPOGRAPHY AND AMBIENT PRESENCE
+   ===================================================== */
+
+.vesh-ambient-center,
+.vesh-home-header,
+.vesh-home-footer,
+.vesh-utility-view {
+  font-family: "Manrope", sans-serif;
+}
+
+.vesh-ambient-center .vesh-stage__time {
+  font-family: "Manrope", sans-serif;
+  font-size: clamp(88px, 8.3vw, 128px);
+  font-weight: 300;
+  letter-spacing: -0.085em;
+  line-height: 1;
+  color: rgba(246, 247, 241, 0.96);
+}
+
+.vesh-clock-seconds {
+  font-size: 0.23em;
+  font-weight: 400;
+  color: rgba(195, 211, 199, 0.5);
+  letter-spacing: -0.025em;
+}
+
+.vesh-ambient-center .vesh-presence-copy h1 {
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: clamp(32px, 3vw, 43px);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+}
+
+.vesh-ambient-center .vesh-presence-copy p {
+  font-family: "Manrope", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.005em;
+}
+
+.vesh-utility-view h2 {
+  font-family: "DM Serif Display", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+}
+
+.vesh-utility-value,
+.vesh-world-clock-list time,
+.vesh-timer-fields input {
+  font-family: "Manrope", sans-serif;
+  font-variant-numeric: tabular-nums;
+  font-weight: 300;
+}
+
+/* Music control */
+.vesh-audio-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 43px;
+  height: 43px;
+  min-width: 43px;
+  padding: 0;
+  border: 1px solid rgba(205, 220, 211, 0.14);
+  border-radius: 50%;
+  color: rgba(214, 226, 216, 0.78);
+  background: rgba(8, 12, 11, 0.48);
+  cursor: pointer;
+  transition: 180ms ease;
+}
+
+.vesh-audio-toggle:hover {
+  border-color: rgba(198, 225, 204, 0.32);
+  color: #edf5ee;
+  background: rgba(190, 220, 197, 0.09);
+}
+
+.vesh-audio-toggle.is-muted {
+  color: rgba(180, 190, 181, 0.45);
+}
+
+.vesh-audio-tooltip {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  z-index: 30;
+  width: max-content;
+  padding: 6px 9px;
+  border: 1px solid rgba(205, 220, 211, 0.12);
+  border-radius: 6px;
+  color: rgba(235, 240, 235, 0.9);
+  background: rgba(9, 13, 11, 0.96);
+  font-size: 10px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(-3px);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.vesh-audio-toggle:hover .vesh-audio-tooltip,
+.vesh-audio-toggle:focus-visible .vesh-audio-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* World clock search */
+.vesh-city-search__status {
+  padding: 9px 3px;
+  color: rgba(190, 204, 195, 0.55);
+  font-size: 10px;
+}
+
+.vesh-city-search__status.is-error {
+  color: #d9a99b;
+}
+
+.vesh-city-suggestions button {
+  min-height: 45px;
+}
+
+.vesh-city-suggestions button > span:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.vesh-city-suggestions button strong {
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.vesh-city-suggestions button small {
+  color: rgba(180, 196, 184, 0.5);
+  font-size: 9px;
+}
+
+.vesh-world-attribution {
+  margin-top: 7px;
+  color: rgba(180, 196, 184, 0.35);
+  font-size: 8px;
+}
+
+/* More visible rain */
+.vesh-atmosphere--rain .vesh-atmosphere__rain i {
+  width: 1px;
+  height: 32px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(170, 205, 225, 0.58)
+  );
+  box-shadow: 0 0 5px rgba(130, 180, 215, 0.12);
+}
+
+.vesh-atmosphere--rain .vesh-atmosphere__glow {
+  opacity: 0.12;
+}
+
+.vesh-atmosphere--rain .vesh-atmosphere__haze {
+  opacity: 0.4;
+}
+
+/* Brighter night sky, without overpowering the clock */
+.vesh-atmosphere--night-sky .vesh-atmosphere__stars i {
+  box-shadow: 0 0 7px rgba(185, 210, 255, 0.48);
+  animation-duration: 3s;
+}
+
+/* More visible fire */
+.vesh-atmosphere--fireplace .vesh-atmosphere__fire-glow {
+  opacity: 0.7;
+  filter: blur(45px);
+}
+
+.vesh-atmosphere--fireplace .vesh-atmosphere__flames i {
+  filter: blur(2px);
+  opacity: 0.8;
+}
+
+.vesh-atmosphere--fireplace .vesh-atmosphere__embers i {
+  box-shadow: 0 0 8px rgba(255, 130, 48, 0.7);
+  opacity: 0.8;
+}
+
+/* Do not let effects obscure interface content */
+.vesh-atmosphere {
+  pointer-events: none;
+}
+
+@media (max-width: 680px) {
+  .vesh-audio-toggle {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+  }
+}
+
+/* VESH header alignment */
+.vesh-home-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 72px;
+  padding-inline: clamp(20px, 4vw, 58px);
+}
+
+.vesh-wordmark {
+  flex: 0 0 auto;
+}
+
+.vesh-header-actions {
+  display: flex;
+  flex: 0 1 auto;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-left: auto;
+  min-width: 0;
+}
+
+.vesh-header-actions > * {
+  flex: 0 0 auto;
+}
+
+/* Hardwork daily check-in */
+.vesh-hardwork {
+  position: relative;
+  z-index: 32;
+}
+
+.vesh-hardwork-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 48px;
+  height: 43px;
+  padding: 0 10px;
+  border: 1px solid rgba(226, 170, 111, .22);
+  border-radius: 999px;
+  color: rgba(239, 194, 143, .88);
+  background: rgba(37, 23, 14, .38);
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.vesh-hardwork-trigger:hover,
+.vesh-hardwork-trigger.is-checked {
+  color: #ffd7a8;
+  border-color: rgba(245, 184, 116, .48);
+  background: rgba(73, 43, 23, .45);
+}
+
+.vesh-hardwork-trigger__count {
+  min-width: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.vesh-hardwork-backdrop {
+  position: fixed;
+  z-index: 40;
+  inset: 0;
+  border: 0;
+  background: transparent;
+}
+
+.vesh-hardwork-popover {
+  position: absolute;
+  z-index: 41;
+  top: calc(100% + 13px);
+  right: 0;
+  width: min(330px, calc(100vw - 28px));
+  padding: 19px;
+  border: 1px solid rgba(214, 190, 158, .17);
+  border-radius: 18px;
+  color: #edf0e9;
+  background: linear-gradient(145deg, rgba(22, 20, 17, .98), rgba(10, 13, 12, .98));
+  box-shadow: 0 22px 70px rgba(0,0,0,.48);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  animation: vesh-hardwork-enter .22s ease both;
+}
+
+.vesh-hardwork-popover__topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vesh-hardwork-popover__eyebrow {
+  color: rgba(222, 185, 145, .63);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .18em;
+}
+
+.vesh-hardwork-popover__topline button {
+  width: 25px;
+  height: 25px;
+  border: 0;
+  border-radius: 50%;
+  color: rgba(232, 232, 222, .58);
+  background: rgba(255,255,255,.045);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.vesh-hardwork-intro h3,
+.vesh-hardwork-celebration h3 {
+  margin: 15px 0 6px;
+  color: #f4eee4;
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: 25px;
+  font-weight: 400;
+}
+
+.vesh-hardwork-intro p,
+.vesh-hardwork-celebration p {
+  margin: 0;
+  color: rgba(209, 211, 199, .67);
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+.vesh-hardwork-celebration__flame {
+  display: inline-grid;
+  place-items: center;
+  width: 37px;
+  height: 37px;
+  margin-top: 15px;
+  border: 1px solid rgba(236, 177, 113, .3);
+  border-radius: 50%;
+  color: #ffd19a;
+  background: rgba(165, 96, 43, .18);
+}
+
+.vesh-hardwork-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+  margin: 17px 0 13px;
+}
+
+.vesh-hardwork-stats > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  border: 1px solid rgba(219, 211, 190, .09);
+  border-radius: 12px;
+  background: rgba(255,255,255,.025);
+}
+
+.vesh-hardwork-stats strong {
+  color: #f4d0a6;
+  font-size: 23px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+.vesh-hardwork-stats span {
+  color: rgba(206, 210, 199, .56);
+  font-size: 9px;
+}
+
+.vesh-hardwork-checkin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid rgba(235, 179, 119, .28);
+  border-radius: 11px;
+  color: #f4d7b4;
+  background: linear-gradient(110deg, rgba(111, 68, 37, .48), rgba(74, 48, 30, .42));
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.vesh-hardwork-checkin:disabled {
+  color: rgba(221, 211, 194, .68);
+  cursor: default;
+}
+
+.vesh-hardwork-note,
+.vesh-hardwork-footnote,
+.vesh-hardwork-error {
+  margin: 10px 0 0;
+  color: rgba(199, 204, 192, .5);
+  font-size: 9px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.vesh-hardwork-error {
+  color: #e3a99d;
+}
+
+.vesh-hardwork-footnote {
+  margin-top: 12px;
+  color: rgba(199, 204, 192, .36);
+}
+
+@keyframes vesh-hardwork-enter {
+  from { opacity: 0; transform: translateY(-5px) scale(.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 900px) {
+  .vesh-header-actions {
+    gap: 7px;
+  }
+
+  .vesh-header-actions .vesh-fullscreen-button span {
+    display: none;
+  }
+
+  .vesh-header-actions .vesh-fullscreen-button {
+    width: 43px;
+    padding: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .vesh-home-header {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 9px;
+    padding: max(12px, env(safe-area-inset-top)) 14px 8px;
+  }
+
+  .vesh-wordmark {
+    align-self: flex-start;
+  }
+
+  .vesh-header-actions {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .vesh-header-actions .vesh-scene-picker {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .vesh-header-actions .vesh-audio-toggle,
+  .vesh-header-actions .vesh-fullscreen-button,
+  .vesh-header-actions .vesh-hardwork-trigger {
+    width: 38px;
+    min-width: 38px;
+    height: 38px;
+  }
+
+  .vesh-header-actions .vesh-hardwork-trigger {
+    padding: 0 5px;
+  }
+
+  .vesh-header-actions .vesh-workspace-link {
+    min-height: 38px;
+    padding-inline: 10px;
+    font-size: 10px;
+  }
+
+  .vesh-hardwork-popover {
+    right: -4px;
+  }
+}
+
+
+/* Final interactive-session layout constraints: keep content inside header/footer. */
+.vesh-interactive-layout { width:min(1480px,100%); height:auto; flex:1 1 0; max-height:calc(100dvh - 150px); min-height:0; overflow:hidden; box-sizing:border-box; padding-top:clamp(10px,1.8vh,22px); padding-bottom:clamp(10px,1.8vh,22px); }
+.vesh-interactive-layout > *, .vesh-conversation-panel, .vesh-conversation { min-width:0; box-sizing:border-box; }
+.vesh-conversation-panel { width:100%; height:min(100%,680px); min-height:0; max-height:100%; overflow:hidden; }
+.vesh-conversation-panel__top { flex:0 0 auto; align-items:center; flex-wrap:wrap; }
+.vesh-conversation { flex:1 1 0; min-height:0; max-height:100%; overflow-x:hidden; overflow-y:auto; overscroll-behavior:contain; overflow-wrap:anywhere; }
+.vesh-message--vesh, .vesh-markdown { max-width:100%; min-width:0; overflow-wrap:anywhere; }
+.vesh-markdown table, .vesh-markdown pre { display:block; max-width:100%; overflow-x:auto; }
+.vesh-stop-speaking, .vesh-read-full { display:inline-flex; align-items:center; justify-content:center; gap:9px; min-height:40px; padding:9px 15px; border:1px solid rgba(236,151,151,.3); border-radius:999px; background:rgba(116,35,39,.24); color:#ffd9d5; font:inherit; font-size:12px; font-weight:600; cursor:pointer; transition:background 160ms ease,border-color 160ms ease,transform 160ms ease; }
+.vesh-stop-speaking:hover { background:rgba(150,43,48,.38); border-color:rgba(255,170,164,.55); }
+.vesh-stop-speaking:active, .vesh-read-full:active { transform:scale(.97); }
+.vesh-read-full { min-height:32px; margin-top:14px; padding:6px 11px; border-color:rgba(157,204,188,.2); background:rgba(157,204,188,.07); color:#b9d9cc; font-size:11px; }
+.vesh-read-full:hover { background:rgba(157,204,188,.14); }
+@media (max-height:760px) and (min-width:761px) { .vesh-interactive-layout { padding-top:8px; padding-bottom:8px; gap:24px; } .vesh-interactive-companion .vesh-character { height:min(42vh,360px); } .vesh-conversation-panel { height:min(100%,590px); padding:22px; } }
+@media (max-width:760px) { .vesh-interactive-layout { height:auto; max-height:none; overflow:visible; } .vesh-conversation-panel { height:min(62vh,620px); min-height:340px; } .vesh-conversation-panel__top { align-items:flex-start; } .vesh-stop-speaking { min-height:34px; padding:7px 11px; } }
+
+
+/* VESH V1 final voice UI refinements */
+.vesh-conversation-panel {
+  background: rgba(7, 11, 10, 0.20) !important;
+  border-color: rgba(205, 223, 219, 0.12);
+  box-shadow: 0 18px 64px rgba(0, 0, 0, 0.10), inset 0 1px 0 rgba(255,255,255,0.025);
+  -webkit-backdrop-filter: blur(12px) saturate(112%);
+  backdrop-filter: blur(12px) saturate(112%);
+}
+.vesh-read-full {
+  width: 36px;
+  min-width: 36px;
+  height: 36px;
+  min-height: 36px;
+  margin-top: 12px;
+  padding: 0;
+  gap: 0;
+  border-radius: 50%;
+  font-size: 15px !important;
+}
+.vesh-read-full span { display: inline-flex; align-items: center; justify-content: center; }
+.vesh-read-full:focus-visible { outline: 2px solid rgba(174,220,194,.85); outline-offset: 3px; }
+
+/* Interactive workspace navigation and persistent productivity drawer. */
+.vesh-interactive-layout { position: relative; display: grid; grid-template-columns: minmax(210px, .32fr) minmax(0, 1fr) 58px; gap: clamp(16px, 2.4vw, 34px); }
+.vesh-interactive-rail { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; min-width:0; padding:12px 6px; border:1px solid rgba(205,223,219,.10); border-radius:22px; background:rgba(9,14,13,.42); }
+.vesh-rail-button { display:grid; place-items:center; width:42px; height:42px; border:1px solid transparent; border-radius:14px; background:transparent; color:rgba(205,220,214,.62); cursor:pointer; transition:background .18s ease,color .18s ease,border-color .18s ease; }
+.vesh-rail-button:hover { color:#e4f2ec; background:rgba(255,255,255,.055); }
+.vesh-rail-button.is-active { color:#c9f0df; border-color:rgba(165,220,194,.18); background:rgba(153,211,182,.12); box-shadow:0 0 22px rgba(112,190,153,.07); }
+.vesh-rail-button:focus-visible,.vesh-drawer-close:focus-visible,.vesh-task-complete:focus-visible { outline:2px solid rgba(174,220,194,.85); outline-offset:3px; }
+.vesh-workspace-drawer { position:absolute; z-index:8; top:clamp(10px,1.8vh,22px); right:72px; bottom:clamp(10px,1.8vh,22px); width:min(390px,calc(100% - 110px)); overflow:auto; padding:22px; border:1px solid rgba(205,223,219,.15); border-radius:22px; background:rgba(10,16,15,.96); box-shadow:0 24px 80px rgba(0,0,0,.48); backdrop-filter:blur(24px); color:#e7eee9; }
+.vesh-drawer-heading { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:22px; }
+.vesh-drawer-eyebrow { color:#8ecbb5; font-size:9px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; }
+.vesh-drawer-heading h2 { margin:6px 0 0; font-size:22px; font-weight:450; letter-spacing:-.04em; }
+.vesh-drawer-close,.vesh-event-item button,.vesh-task-delete,.vesh-calendar-head button { display:grid; place-items:center; width:34px; height:34px; border:1px solid rgba(255,255,255,.1); border-radius:11px; background:rgba(255,255,255,.035); color:#c7d4cd; cursor:pointer; }
+.vesh-drawer-card { display:flex; flex-direction:column; align-items:flex-start; gap:12px; padding:20px; border:1px solid rgba(255,255,255,.09); border-radius:16px; background:rgba(255,255,255,.025); color:#b8d9ca; }
+.vesh-drawer-card h3 { margin:0; color:#eef3ef; font-size:16px; font-weight:550; }
+.vesh-drawer-card p,.vesh-drawer-muted { color:rgba(200,214,205,.62); font-size:12px; line-height:1.65; }
+.vesh-drawer-action { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:40px; padding:9px 14px; border:1px solid rgba(156,215,184,.2); border-radius:12px; background:rgba(126,190,153,.12); color:#d7f1e2; font-size:12px; font-weight:600; text-decoration:none; cursor:pointer; }
+.vesh-drawer-summary { display:flex; flex-direction:column; gap:3px; margin-bottom:18px; padding:16px; border:1px solid rgba(255,255,255,.08); border-radius:15px; background:rgba(255,255,255,.025); }
+.vesh-drawer-summary strong { font-size:32px; font-weight:350; line-height:1.1; }
+.vesh-drawer-summary span { color:#c5d4cb; font-size:12px; }
+.vesh-drawer-summary small,.vesh-task-copy small,.vesh-event-item small { color:rgba(190,205,196,.54); font-size:10px; }
+.vesh-quick-form { display:flex; flex-direction:column; gap:9px; margin:16px 0 20px; }
+.vesh-quick-form label { color:#c6d7ce; font-size:11px; font-weight:600; }
+.vesh-quick-form input,.vesh-quick-form select { width:100%; min-width:0; min-height:39px; padding:9px 11px; border:1px solid rgba(255,255,255,.11); border-radius:10px; outline:none; background:rgba(255,255,255,.045); color:#e6eee8; color-scheme:dark; font:inherit; font-size:11px; }
+.vesh-quick-form input:focus,.vesh-quick-form select:focus { border-color:rgba(153,211,182,.55); }
+.vesh-form-row { display:grid; grid-template-columns:minmax(0,1fr) 82px; gap:8px; }
+.vesh-drawer-list { display:flex; flex-direction:column; gap:8px; }
+.vesh-task-item,.vesh-event-item { display:flex; align-items:center; gap:10px; padding:11px 9px; border-bottom:1px solid rgba(255,255,255,.07); }
+.vesh-task-copy,.vesh-event-item > div { display:flex; flex:1; flex-direction:column; min-width:0; gap:4px; }
+.vesh-task-copy strong,.vesh-event-item strong { overflow-wrap:anywhere; color:#e1eae4; font-size:12px; font-weight:550; }
+.vesh-task-complete { display:grid; place-items:center; width:30px; height:30px; flex:0 0 auto; border:0; background:transparent; color:#9dcbb1; cursor:pointer; }
+.vesh-task-delete { width:29px; height:29px; flex:0 0 auto; }
+.vesh-event-item button { width:29px; height:29px; flex:0 0 auto; }
+.vesh-calendar-head { display:flex; align-items:center; justify-content:space-between; margin:8px 0 14px; }
+.vesh-calendar-head strong { font-size:13px; font-weight:600; }
+.vesh-calendar-grid { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:5px; }
+.vesh-calendar-weekday { display:grid; place-items:center; height:27px; color:rgba(194,211,201,.48); font-size:9px; }
+.vesh-calendar-day { position:relative; display:grid; place-items:center; aspect-ratio:1; min-width:0; border:1px solid transparent; border-radius:9px; background:rgba(255,255,255,.025); color:#c9d6ce; font-size:10px; cursor:pointer; }
+.vesh-calendar-day:hover { background:rgba(255,255,255,.08); }
+.vesh-calendar-day.is-today { border-color:rgba(151,216,183,.48); color:#d5f3e0; }
+.vesh-calendar-day i { position:absolute; bottom:4px; width:4px; height:4px; border-radius:50%; background:#9bd5b5; }
+.vesh-drawer-error { padding:10px 12px; border:1px solid rgba(255,130,130,.2); border-radius:10px; background:rgba(160,45,45,.1); color:#ffc4bd; font-size:11px; }
+@media (max-width:900px) { .vesh-interactive-layout { grid-template-columns:minmax(160px,.3fr) minmax(0,1fr) 52px; gap:12px; } .vesh-workspace-drawer { right:62px; width:min(360px,calc(100% - 80px)); } }
+@media (max-width:760px) { .vesh-interactive-layout { grid-template-columns:minmax(0,1fr) 48px; gap:9px; } .vesh-interactive-companion { display:none; } .vesh-interactive-rail { grid-column:2; grid-row:1; gap:8px; padding:8px 4px; border-radius:16px; } .vesh-rail-button { width:38px; height:38px; } .vesh-conversation-panel { grid-column:1; grid-row:1; } .vesh-workspace-drawer { position:fixed; top:88px; right:12px; bottom:86px; width:min(390px,calc(100vw - 24px)); } }
+
+/* VESH V1 responsive composition: center the companion and remove desktop offsets. */
+@media (max-width: 900px) {
+  .vesh-ambient-layout { transform: none; }
+  .vesh-ambient-center, .vesh-ambient-companion { transform: none !important; }
+  .vesh-ambient-layout { min-width: 0; }
+}
+@media (max-width: 760px) {
+  .vesh-ambient-layout {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 14px;
+    width: 100%;
+    min-height: 0;
+    height: auto;
+    max-height: none;
+    padding: 14px 16px 28px;
+    padding-bottom: max(28px, env(safe-area-inset-bottom));
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  .vesh-utility-nav {
+    position: static !important;
+    order: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    margin: 0 auto 8px;
+    transform: none !important;
+  }
+  .vesh-ambient-center {
+    order: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 8px 0 0;
+    margin: 0;
+    transform: none !important;
+    text-align: center;
+  }
+  .vesh-ambient-center .vesh-stage__time { font-size: clamp(58px, 15vw, 86px); line-height: 1; }
+  .vesh-ambient-center .vesh-presence-copy { width: 100%; margin: 14px 0 0; text-align: center; }
+  .vesh-ambient-companion {
+    order: 2;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 8px auto 0;
+    padding: 0;
+    transform: none !important;
+  }
+  .vesh-ambient-companion .vesh-character {
+    width: clamp(138px, 39vw, 190px);
+    height: auto;
+    aspect-ratio: 6 / 7;
+    margin: 0 auto 6px;
+  }
+  .vesh-companion-caption, .vesh-companion-status { text-align: center; }
+  .vesh-home-header { padding-inline: 12px; }
+  .vesh-header-actions { min-width: 0; gap: 5px; }
+  .vesh-workspace-link { padding-inline: 9px; font-size: 10px; }
+  .vesh-home-footer { padding-bottom: max(12px, env(safe-area-inset-bottom)); }
+}
+@media (max-width: 390px) {
+  .vesh-home-header { min-height: 56px; }
+  .vesh-header-actions .vesh-audio-toggle,
+  .vesh-header-actions .vesh-fullscreen-button { width: 34px; min-width: 34px; height: 34px; }
+  .vesh-ambient-layout { padding-inline: 12px; }
+  .vesh-ambient-center .vesh-stage__time { font-size: clamp(52px, 14vw, 66px); }
+}
+
+
+@media (min-width: 761px) and (max-width: 1024px) and (orientation: portrait) {
+  .vesh-ambient-layout { display:flex !important; flex-direction:column; align-items:center; justify-content:flex-start; gap:16px; padding:20px 28px; overflow-y:auto; }
+  .vesh-utility-nav { position:static !important; order:0; display:flex; flex-direction:row; width:100%; justify-content:center; margin:0 auto 8px; transform:none !important; }
+  .vesh-ambient-center { order:1; width:100%; display:flex; flex-direction:column; align-items:center; transform:none !important; text-align:center; }
+  .vesh-ambient-center .vesh-stage__time { font-size:clamp(72px,11vw,108px); }
+  .vesh-ambient-center .vesh-presence-copy { text-align:center; }
+  .vesh-ambient-companion { order:2; width:100%; display:flex; justify-content:center; transform:none !important; }
+  .vesh-ambient-companion .vesh-character { width:clamp(190px,28vw,250px); }
+}
+
+.vesh-hardwork-share {
+  width: 100%;
+  min-height: 42px;
+  margin-top: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: 1px solid rgba(196, 223, 206, .22);
+  border-radius: 12px;
+  background: rgba(196, 223, 206, .07);
+  color: #d4e8da;
+  cursor: pointer;
+  transition: background .18s ease, border-color .18s ease;
+}
+.vesh-hardwork-share:hover { background: rgba(196, 223, 206, .13); border-color: rgba(196, 223, 206, .4); }
+.vesh-hardwork-share:disabled { opacity: .6; cursor: wait; }
+.vesh-hardwork-share-message { color: #a8cdb4; font-size: 11px; line-height: 1.5; overflow-wrap: anywhere; }
+.vesh-hardwork-copy-link { display: inline-flex; align-items: center; gap: 6px; border: 0; background: transparent; color: #aebbb3; font-size: 11px; cursor: pointer; }
+.vesh-hardwork-share-actions { display: flex; justify-content: space-between; gap: 12px; }
+
+
+/* VESH V1 workspace refinement — shared visual language for all four tools. */
+.vesh-workspace-drawer {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: clamp(18px, 2vw, 24px) !important;
+  border: 1px solid rgba(155, 211, 184, .16) !important;
+  border-radius: 24px !important;
+  background:
+    radial-gradient(ellipse at 8% 0%, rgba(105, 170, 137, .09), transparent 38%),
+    linear-gradient(155deg, rgba(12, 20, 17, .985), rgba(7, 12, 11, .985)) !important;
+  box-shadow: 0 28px 90px rgba(0,0,0,.58), inset 0 1px 0 rgba(255,255,255,.035) !important;
+}
+.vesh-drawer-heading {
+  align-items: center !important;
+  margin-bottom: 15px !important;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(210, 232, 219, .09);
+}
+.vesh-drawer-heading h2 {
+  margin-top: 5px !important;
+  font-size: 25px !important;
+  font-weight: 520 !important;
+  letter-spacing: -.055em !important;
+}
+.vesh-drawer-eyebrow {
+  color: #8dcbb1 !important;
+  font-size: 9px !important;
+  letter-spacing: .19em !important;
+}
+.vesh-drawer-close {
+  flex: 0 0 auto;
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 12px !important;
+  background: rgba(255,255,255,.045) !important;
+  transition: background .18s ease, border-color .18s ease, transform .18s ease;
+}
+.vesh-drawer-close:hover {
+  background: rgba(139, 207, 170, .12) !important;
+  border-color: rgba(139, 207, 170, .3) !important;
+  transform: rotate(5deg);
+}
+.vesh-panel-intro {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 0 0 18px;
+  padding: 13px 14px;
+  border: 1px solid rgba(150, 207, 177, .13);
+  border-radius: 15px;
+  background: linear-gradient(110deg, rgba(91, 151, 116, .105), rgba(255,255,255,.018));
+}
+.vesh-panel-intro__mark {
+  display: grid;
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid rgba(143, 209, 177, .2);
+  border-radius: 11px;
+  background: rgba(127, 193, 153, .1);
+  color: #a5dfbf;
+}
+.vesh-panel-intro__copy { min-width: 0; }
+.vesh-panel-intro__kicker {
+  display: block;
+  margin: 1px 0 5px;
+  color: #a2d8bd;
+  font: 700 9px "Space Mono", monospace;
+  letter-spacing: .16em;
+}
+.vesh-panel-intro__copy p {
+  margin: 0;
+  color: rgba(211, 224, 216, .68);
+  font-size: 11px;
+  line-height: 1.55;
+}
+.vesh-drawer-error {
+  margin: 0 0 14px !important;
+  padding: 10px 12px !important;
+  border: 1px solid rgba(232, 125, 125, .25) !important;
+  border-radius: 12px !important;
+  background: rgba(145, 48, 48, .12) !important;
+  color: #ffb7ae !important;
+  font-size: 11px !important;
+  line-height: 1.5;
+}
+.vesh-drawer-muted {
+  color: rgba(197, 213, 203, .58) !important;
+  font-size: 11px !important;
+  line-height: 1.6;
+}
+.vesh-task-section-head {
+  align-items: center;
+  margin: 17px 0 10px !important;
+}
+.vesh-task-section-head h3 {
+  margin-top: 5px !important;
+  font-size: 16px !important;
+  font-weight: 560 !important;
+  letter-spacing: -.025em;
+}
+.vesh-task-section-head--secondary {
+  margin-top: 22px !important;
+  padding-top: 17px !important;
+  border-top: 1px solid rgba(209, 229, 216, .1) !important;
+}
+.vesh-drawer-summary {
+  position: relative;
+  display: grid !important;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: 12px !important;
+  row-gap: 4px !important;
+  margin: 0 0 18px !important;
+  padding: 15px 16px !important;
+  border: 1px solid rgba(151, 211, 178, .16) !important;
+  border-radius: 16px !important;
+  background: linear-gradient(120deg, rgba(90, 151, 111, .14), rgba(255,255,255,.025)) !important;
+}
+.vesh-drawer-summary strong {
+  grid-row: span 2;
+  color: #d7eddd;
+  font-size: 34px !important;
+}
+.vesh-drawer-summary span { align-self: end; font-size: 11px !important; }
+.vesh-drawer-summary small { align-self: start; font-size: 10px !important; }
+.vesh-quick-form {
+  gap: 9px !important;
+  margin: 14px 0 18px !important;
+  padding: 16px !important;
+  border: 1px solid rgba(205, 226, 212, .1) !important;
+  border-radius: 17px !important;
+  background: rgba(255,255,255,.025) !important;
+}
+.vesh-quick-form label {
+  margin-top: 3px;
+  color: #cbd9d0 !important;
+  font-size: 10px !important;
+  font-weight: 650 !important;
+  letter-spacing: .015em;
+}
+.vesh-quick-form input,
+.vesh-quick-form select,
+.vesh-quick-form textarea {
+  width: 100% !important;
+  min-width: 0;
+  min-height: 42px !important;
+  padding: 11px 12px !important;
+  border: 1px solid rgba(205, 226, 212, .12) !important;
+  border-radius: 11px !important;
+  outline: none !important;
+  background: rgba(3, 8, 6, .48) !important;
+  color: #edf4ef !important;
+  font: 500 12px "Space Grotesk", sans-serif !important;
+  box-shadow: none !important;
+  transition: border-color .18s ease, background .18s ease, box-shadow .18s ease;
+}
+.vesh-quick-form textarea {
+  min-height: 116px !important;
+  resize: vertical;
+  line-height: 1.65 !important;
+}
+.vesh-quick-form input::placeholder,
+.vesh-quick-form textarea::placeholder { color: rgba(185, 202, 191, .38) !important; }
+.vesh-quick-form input:focus,
+.vesh-quick-form select:focus,
+.vesh-quick-form textarea:focus {
+  border-color: rgba(139, 210, 173, .55) !important;
+  background: rgba(7, 16, 11, .78) !important;
+  box-shadow: 0 0 0 3px rgba(104, 180, 137, .09) !important;
+}
+.vesh-drawer-action {
+  min-height: 42px !important;
+  padding: 10px 15px !important;
+  border: 1px solid rgba(145, 210, 170, .25) !important;
+  border-radius: 12px !important;
+  background: linear-gradient(135deg, rgba(87, 150, 111, .22), rgba(72, 120, 91, .13)) !important;
+  color: #dff2e5 !important;
+  font-size: 12px !important;
+  font-weight: 650 !important;
+  transition: transform .18s ease, border-color .18s ease, background .18s ease;
+}
+.vesh-drawer-action:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: rgba(157, 226, 185, .45) !important;
+  background: linear-gradient(135deg, rgba(87, 150, 111, .32), rgba(72, 120, 91, .2)) !important;
+}
+.vesh-drawer-list {
+  gap: 7px !important;
+  margin-top: 8px;
+}
+.vesh-task-item,
+.vesh-event-item {
+  min-width: 0;
+  padding: 12px !important;
+  border: 1px solid rgba(205, 226, 212, .085) !important;
+  border-radius: 13px !important;
+  background: rgba(255,255,255,.022);
+  transition: background .18s ease, border-color .18s ease;
+}
+.vesh-task-item:hover,
+.vesh-event-item:hover {
+  border-color: rgba(151, 211, 178, .2) !important;
+  background: rgba(127, 187, 146, .055);
+}
+.vesh-task-copy { min-width: 0; gap: 5px !important; }
+.vesh-task-copy strong,
+.vesh-event-item strong {
+  color: #e8f0eb;
+  font-size: 12px !important;
+  font-weight: 620 !important;
+  overflow-wrap: anywhere;
+}
+.vesh-task-copy small,
+.vesh-event-item small {
+  color: rgba(191, 207, 197, .58) !important;
+  font-size: 10px !important;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.vesh-task-complete {
+  flex: 0 0 auto;
+  color: #8fceb0;
+}
+.vesh-task-delete {
+  flex: 0 0 auto;
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 9px !important;
+  color: rgba(199, 213, 204, .58) !important;
+}
+.vesh-task-delete:hover {
+  color: #ffb6ad !important;
+  border-color: rgba(232, 125, 125, .28) !important;
+  background: rgba(145, 48, 48, .12) !important;
+}
+.vesh-mini-chat {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 340px !important;
+}
+.vesh-mini-chat__toolbar {
+  padding: 0 1px 11px;
+  border-bottom: 1px solid rgba(210, 232, 219, .09);
+}
+.vesh-mini-chat__messages {
+  padding: 8px 2px 14px !important;
+}
+.vesh-mini-chat__empty {
+  min-height: 210px;
+  border: 1px dashed rgba(148, 207, 175, .17);
+  border-radius: 15px;
+  background: rgba(255,255,255,.018);
+}
+.vesh-mini-chat__message {
+  padding: 11px 12px;
+  border: 1px solid rgba(204, 224, 211, .085);
+  border-radius: 13px;
+  background: rgba(255,255,255,.025);
+}
+.vesh-mini-chat__message.is-user {
+  margin-left: 12%;
+  border-color: rgba(145, 207, 169, .16);
+  background: rgba(99, 155, 119, .085);
+}
+.vesh-mini-chat__message > span {
+  color: #91cdb0 !important;
+  font: 700 9px "Space Mono", monospace !important;
+  letter-spacing: .15em;
+}
+.vesh-mini-chat__formatted { font-size: 12px !important; }
+.vesh-mini-chat__form {
+  display: grid;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(210, 232, 219, .09);
+}
+.vesh-mini-chat__form textarea {
+  width: 100%;
+  padding: 12px !important;
+  border: 1px solid rgba(205, 226, 212, .13) !important;
+  border-radius: 12px !important;
+  background: rgba(3, 8, 6, .52) !important;
+  color: #edf4ef !important;
+  font: 500 12px "Space Grotesk", sans-serif !important;
+}
+.vesh-calendar-head {
+  margin: 2px 0 12px;
+  padding: 10px 12px;
+  border: 1px solid rgba(205, 226, 212, .1);
+  border-radius: 13px;
+  background: rgba(255,255,255,.025);
+}
+.vesh-calendar-grid {
+  display: grid;
+  padding: 12px 8px;
+  border: 1px solid rgba(205, 226, 212, .09);
+  border-radius: 15px;
+  background: rgba(255,255,255,.018);
+}
+.vesh-calendar-weekday {
+  color: rgba(189, 207, 195, .5) !important;
+  font: 700 9px "Space Mono", monospace !important;
+}
+.vesh-calendar-day { color: #dce8df !important; }
+.vesh-event-item button {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+}
+.vesh-event-item button:hover {
+  border-color: rgba(145, 210, 170, .28);
+  color: #bfe9ce;
+}
+.vesh-modal-backdrop { z-index: 60 !important; }
+.vesh-task-modal {
+  border-color: rgba(155, 211, 184, .18) !important;
+  background: #0b1210 !important;
+}
+@media (max-width: 760px) {
+  .vesh-workspace-drawer {
+    top: 76px !important;
+    right: 10px !important;
+    bottom: max(78px, env(safe-area-inset-bottom)) !important;
+    width: min(430px, calc(100vw - 20px)) !important;
+    max-height: none !important;
+    padding: 17px !important;
+    border-radius: 20px !important;
+  }
+  .vesh-panel-intro { padding: 11px 12px; margin-bottom: 14px; }
+  .vesh-quick-form { padding: 13px !important; }
+}
